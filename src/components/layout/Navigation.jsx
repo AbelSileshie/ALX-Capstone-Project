@@ -86,7 +86,7 @@ export default function Navigation() {
   }, []);
 
   return (
-    <Navbar className=" top-0 mx-auto w-full">
+    <Navbar className=" top-0 mx-auto w-full border-none shadow-none">
       <div className="flex items-center">
         <Typography
           as="a"
