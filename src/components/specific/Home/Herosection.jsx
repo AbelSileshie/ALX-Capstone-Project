@@ -81,7 +81,7 @@ export default function Herosection() {
     const fetchAndStoreMovies = async () => {
       try {
         const movieData = await FetchMovies(DiscoverMovies);
-        setMovies(movieData);
+        setMovies(movieData.results);
         console.log("Movies", movieData);
       } catch (error) {
         console.error("Error in HeroSection fetch:", error);
