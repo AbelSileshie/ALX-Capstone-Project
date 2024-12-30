@@ -1,29 +1,30 @@
 import "./App.css";
 import { lazy, Suspense } from "react";
-import Navigation from "./components/layout/Navigation.jsx";
-import Footer from "./components/layout/Footer.jsx";
-import Home from "./Page/Home/Home.jsx";
-import { AuthStore } from "./store/UseAuthStore.js";
-const Error404 = lazy(() => import("./components/error/Error404.jsx"));
-const Login = lazy(() => import("./Page/Login/Login.jsx"));
+import Navigation from "./components/layout/Navigation";
+import Footer from "./components/layout/Footer";
+import { AuthStore } from "./store/UseAuthStore";
+import Error404 from "./components/error/Error404";
+import { Spiner } from "./components/layout/Spiner";
+
+// Lazy load components for better performance
+const Home = lazy(() => import("./Page/Home/Home"));
 
 function App() {
-  const saveddata = AuthStore((state) => state.user);
-  const savedtoken = AuthStore((state) => state.token);
-  console.log(saveddata, savedtoken);
+  const savedData = AuthStore((state) => state.user);
+  const savedToken = AuthStore((state) => state.token);
+
+  console.log(savedData, savedToken);
+
   return (
     <>
-      <Suspense fallback={<Error404 />}>
-        <nav className="relative top-0 mx-auto w-full p-1">
-          <div className="h-auto w-full">
-            <Navigation />
-          </div>
-        </nav>
-        <main>
-          <section className="flex-grow pt-2 p-8V">
+      <Suspense fallback={<Spiner />}>
+        <div className="sticky top-0 left-0 w-full z-50 bg-white shadow-md p-2 bg-transparent">
+          <Navigation />
+        </div>
+        <main className="pb-8">
+          <section className="flex-grow pt-2 p-2">
             <Home />
           </section>
-          <section></section>
         </main>
         <footer className="mt-auto bg-white p-8">
           <Footer />

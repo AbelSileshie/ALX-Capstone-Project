@@ -16,4 +16,7 @@ export const NowPlayingMovies = `${
 }/movie/now_playing?language=en-US&page=1`;
 export const TopRatedMovies = `${
   import.meta.env.VITE_TMDB_API_URL
-}//movie/top_rated?language=en-US&page=1`;
+}/movie/top_rated?language=en-US&page=1`;
+export const Moviedetailpath = (id) => {
+  return `${import.meta.env.VITE_TMDB_API_URL}/movie/${id}?language=en-US`;
+};

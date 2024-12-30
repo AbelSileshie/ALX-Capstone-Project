@@ -7,6 +7,7 @@ import Login from "../../Page/Login/Login";
 import App from "../../App";
 import Error404 from "../error/Error404";
 import { Spiner } from "../layout/Spiner";
+import Moviedetail from "../../Page/Movie/Moviedetail";
 
 export default function AppRouter() {
   const [isConnected, setIsConnected] = useState(navigator.onLine);
@@ -31,11 +32,12 @@ export default function AppRouter() {
         <Route path="/" element={<App />} />
         <Route path="*" element={<Error404 />} />
         {isConnected ? (
-          <Route path="/Nointernet" element={<Error404 />} />
+          <Route path="/" element={<App />} />
         ) : (
           <Route path="/Nointernet" element={<Nointernet />} />
         )}
         <Route path="/Signup" element={<Signup />} />
+        <Route path="/movie/:id" element={<Moviedetail />} />
       </Routes>
     </Suspense>
   );

@@ -11,10 +11,8 @@ import {
 } from "@heroicons/react/24/solid";
 
 const Thetre = () => {
-  const [background, setBackground] = useState(
-    "https://image.tmdb.org/t/p/original//zOpe0eHsq0A2NvNyBbtT6sj53qV.jpg"
-  );
-  const [movies, setMovies] = useState([{}]);
+  const [background, setBackground] = useState("");
+  const [movies, setMovies] = useState([]);
   console.log("Movies", background);
   const handlebackground = (movie) => {
     console.log("background" + `${posterpath}${movie.backdrop_path}`);
@@ -56,6 +54,7 @@ const Thetre = () => {
                   src={`${posterpath}${movie.backdrop_path}`}
                   alt={movie.title}
                   className="w-full h-full object-cover shadow-lg"
+                  onAp
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/90 text-white flex items-end p-3">
                   <div className="w-full flex items-center justify-between">

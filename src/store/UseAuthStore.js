@@ -4,20 +4,21 @@ import { persist } from "zustand/middleware";
 export const AuthStore = create(
   persist(
     (set, get) => ({
-      isAuthenticated: false,
+      isAuthenticated: null,
       user: null,
       token: null,
       setLogin: (data) => {
         set({
           token: data.acceess_token,
           user: data.user,
+          isAuthenticated: true,
         });
       },
-      logout: () => set({ isAuthenticated: false, user: null, fullinfo: null }),
+      logout: () => set({ isAuthenticated: false, user: null }),
     }),
     {
       isAuthenticated: () => {
-        return !!get().token;
+        return !!get().acceess_token;
       },
     },
     {

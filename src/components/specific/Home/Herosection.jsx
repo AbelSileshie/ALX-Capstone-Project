@@ -16,6 +16,7 @@ import {
   Card,
   Button,
   Chip,
+  Spinner,
 } from "@material-tailwind/react";
 
 import {
@@ -28,11 +29,14 @@ import {
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { BookmarkIcon } from "@heroicons/react/24/solid";
 import { FetchMovies } from "../../../Services/Fetchmovies";
-import { UseDiscover, genres } from "../../../store/UseMovieStore";
-import { data } from "autoprefixer";
+import { UseDiscover } from "../../../store/UseMovieStore";
 import { posterpath } from "../../../utils/APIPath";
 import Error500 from "../../error/Error500";
 import { DiscoverMovies } from "../../../utils/APIPath";
+import { Spiner } from "../../layout/Spiner";
+import Moviedetail from "../../../Page/Movie/Moviedetail";
+import { useNavigate } from "react-router-dom";
+import Navigation1 from "../../layout/Navigation";
 
 function CustomNavigation() {
   const swiper = useSwiper();
@@ -69,9 +73,10 @@ function customPagination(_, className) {
 }
 
 export default function Herosection() {
-  const [selectedMovie, setSelectedMovie] = React.useState({});
-  const setMovies = UseDiscover((state) => state.setMovies);
-  const movies = UseDiscover((state) => state.movies);
+  const [selectedMovie, setSelectedMovie] = React.useState([]);
+  const [movies, setMovies] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const Navigate = useNavigate();
   React.useEffect(() => {
     const fetchAndStoreMovies = async () => {
       try {
@@ -82,7 +87,7 @@ export default function Herosection() {
         console.error("Error in HeroSection fetch:", error);
       }
     };
-
+    setLoading(false);
     fetchAndStoreMovies();
     return () => {
       console.log("Component unmounted, movies:", movies);
@@ -90,92 +95,99 @@ export default function Herosection() {
   }, [setMovies]);
   const selecthandler = (movie) => {
     setSelectedMovie(movie);
-    console.log("selectedMovie", movie);
+    Navigate(`/movie/${movie.id}`);
   };
-
   return (
-    <React.Suspense fallback={<Error500 />}>
-      <div className="w-full object-cover">
-        <Swiper
-          pagination={{
-            enabled: true,
+    <div>
+      {loading ? (
+        <>
+          <Spiner />
+        </>
+      ) : (
+        <React.Suspense fallback={<Error500 />}>
+          <div className="w-full object-cover">
+            <Swiper
+              pagination={{
+                enabled: true,
 
-            clickable: true,
+                clickable: true,
 
-            dynamicBullets: true,
+                dynamicBullets: true,
 
-            renderBullet: customPagination,
-          }}
-          modules={[Navigation, Pagination]}
-          className="relative rounded-lg [&_div.swiper-button-next]:text-background [&_div.swiper-button-prev]:text-background"
-        >
-          {Array.isArray(movies) &&
-            movies.map((movie, index) => (
-              <SwiperSlide key={index} className="relative select-none">
-                <img
-                  src={`${posterpath}${movie.backdrop_path}`}
-                  alt={`image-${movie.title}`}
-                  className="h-[75vh] md:h-[32rem] lg:h-[35rem] w-full sm:0bject-center md:object-cover lg:object-cover"
-                  style={{ objectFit: "cover" }}
-                />
-                <div className="absolute inset-0 bottom-0 left-0 bg-gradient-to-t from-black via-transparent to-transparent">
-                  <div className="relative container mx-auto lg:px-2 sm:px-0 flex items-end p-1 justify-start h-full text-center text-white gap-5  bg-transparent ">
-                    <Card
-                      onClick={() => selecthandler(movie)}
-                      className="w-full max-w-[10rem] shadow-none bg-transparent border-none rounded-[2rem] p-1 sm:hidden lg:block md:block cursor-pointerx  "
-                    >
-                      <Card.Body className="relative overflow-hidden p-0 lg:h-[13rem] md:h-[13rem] sm:h-[15rem] shadow-lg">
-                        <img
-                          src={`${posterpath}${movie.poster_path}`}
-                          alt={`image-${movie.title}`}
-                          className="w-full h-full object-cover shadow-lg cursor-pointer"
-                        />
-
-                        <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60" />
-
-                        <IconButton
-                          size="sm"
-                          color="error"
-                          variant="ghost"
-                          className="!absolute right-2 top-2 rounded-full"
+                renderBullet: customPagination,
+              }}
+              modules={[Navigation, Pagination]}
+              className="relative rounded-lg [&_div.swiper-button-next]:text-background [&_div.swiper-button-prev]:text-background"
+            >
+              {Array.isArray(movies) &&
+                movies.map((movie, index) => (
+                  <SwiperSlide key={index} className="relative select-none">
+                    <img
+                      src={`${posterpath}${movie.backdrop_path}`}
+                      alt={`image-${movie.title}`}
+                      className="h-[75vh] md:h-[32rem] lg:h-[35rem] w-full sm:0bject-center md:object-cover lg:object-cover"
+                      style={{ objectFit: "cover" }}
+                    />
+                    <div className="absolute inset-0 bottom-0 left-0 bg-gradient-to-t from-black via-transparent to-transparent">
+                      <div className="relative container mx-auto lg:px-2 sm:px-0 flex items-end p-1 justify-start h-full text-center text-white gap-5  bg-transparent ">
+                        <Card
                           onClick={() => selecthandler(movie)}
+                          className="w-full max-w-[10rem] shadow-none bg-transparent border-none rounded-[2rem] p-1 sm:hidden lg:block md:block cursor-pointerx  "
                         >
-                          <BookmarkIcon className="h-5 w-5" color="black" />
-                        </IconButton>
-                      </Card.Body>
-                    </Card>
-                    <div>
-                      <div className="mb-2 flex items-center justify-between">
-                        <Typography
-                          variant="h1"
-                          className="sm:text-3xl md:text-3xl lg:text-3xl ml-6"
-                        >
-                          {movie.title}
-                        </Typography>
-                        <Typography className="flex items-center gap-1.5 ">
-                          <StarSolid className="h-[18px] w-[18px] text-warning" />
-                          {movie.vote_average.toFixed(1)}
-                        </Typography>
-                      </div>
-                      <div className="p-5">
-                        <Typography className="text-justify sm:text-sm md:text-base lg:text-lg  md:max-w-[20rem] lg:max-w-[35rem]">
-                          {movie.overview}
-                        </Typography>
-                        <div className="flex items-center gap-2">
-                          <Chip isPill={false} variant="solid">
-                            <Chip.Label></Chip.Label>
-                          </Chip>
+                          <Card.Body className="relative overflow-hidden p-0 lg:h-[13rem] md:h-[13rem] sm:h-[15rem] shadow-lg">
+                            <img
+                              src={`${posterpath}${movie.poster_path}`}
+                              alt={`image-${movie.title}`}
+                              className="w-full h-full object-cover shadow-lg cursor-pointer"
+                            />
+
+                            <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60" />
+
+                            <IconButton
+                              size="sm"
+                              color="error"
+                              variant="ghost"
+                              className="!absolute right-2 top-2 rounded-full"
+                              onClick={() => selecthandler(movie)}
+                            >
+                              <BookmarkIcon className="h-5 w-5" color="black" />
+                            </IconButton>
+                          </Card.Body>
+                        </Card>
+                        <div>
+                          <div className="mb-2 flex items-center justify-between">
+                            <Typography
+                              variant="h1"
+                              className="sm:text-3xl md:text-3xl lg:text-3xl ml-6"
+                            >
+                              {movie.title}
+                            </Typography>
+                            <Typography className="flex items-center gap-1.5 ">
+                              <StarSolid className="h-[18px] w-[18px] text-warning" />
+                              {movie.vote_average.toFixed(1)}
+                            </Typography>
+                          </div>
+                          <div className="p-5">
+                            <Typography className="text-justify sm:text-sm md:text-base lg:text-lg  md:max-w-[20rem] lg:max-w-[35rem]">
+                              {movie.overview}
+                            </Typography>
+                            <div className="flex items-center gap-2">
+                              <Chip isPill={false} variant="solid">
+                                <Chip.Label></Chip.Label>
+                              </Chip>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
+                  </SwiperSlide>
+                ))}
 
-          <CustomNavigation />
-        </Swiper>
-      </div>
-    </React.Suspense>
+              <CustomNavigation />
+            </Swiper>
+          </div>
+        </React.Suspense>
+      )}
+    </div>
   );
 }

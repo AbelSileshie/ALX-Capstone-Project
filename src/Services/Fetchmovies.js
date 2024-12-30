@@ -13,7 +13,6 @@ export async function FetchMovies(url) {
       },
       timeout: 10000,
     });
-
     if (response.status === 200) {
       return response.data.results || [];
     } else {
