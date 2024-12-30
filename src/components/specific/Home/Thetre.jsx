@@ -23,10 +23,11 @@ const Thetre = () => {
   useEffect(() => {
     const fetchAndStoreMovies = async () => {
       try {
-        const movieData = await FetchMovies(UpcomingMovies);
+        const apiUrl = UpcomingMovies;
+        const movieData = await FetchMovies(apiUrl);
 
         console.log("Movies", movieData);
-        setMovies(movieData);
+        setMovies(movieData.results);
       } catch (error) {
         console.error("Error in HeroSection fetch:", error);
       }

@@ -9,12 +9,12 @@ export async function FetchMovies(url) {
   try {
     const response = await axios.get(url, {
       headers: {
-        Authorization: `${import.meta.env.VITE_TMDB_API_KEY}`,
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
       },
       timeout: 10000,
     });
     if (response.status === 200) {
-      return response.data.results || [];
+      return response.data || [];
     } else {
       console.warn(`Unexpected response status: ${response.status}`);
       return [];
