@@ -34,17 +34,14 @@ const LINKS = [
   {
     icon: ProfileCircle,
     title: "Account",
-    href: "#",
   },
   {
     icon: SelectFace3d,
     title: "Blocks",
-    href: "#",
   },
   {
     icon: Archive,
     title: "Docs",
-    href: "#",
   },
 ];
 
@@ -105,60 +102,14 @@ export default function Navigation() {
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <Typography
-            as="a"
-            href="#"
             type="small"
-            className="ml-2 mr-2 block py-1 font-semibold"
+            className="ml-2 mr-2 block py-1 font-semibold cursor-pointer"
           >
-            Material Tailwind
+            FMovies
           </Typography>
           <hr className="mx-1 hidden h-5 w-px border-l border-t-0 border-secondary-dark lg:block" />
           <div className="hidden lg:block">
             <List className="mt-4 flex flex-col gap-1 lg:mt-0 lg:flex-row lg:items-center">
-              <Tooltip placement="bottom" interactive>
-                <Tooltip.Trigger>
-                  <List.Item>
-                    <List.ItemStart className="me-1.5">
-                      <MultiplePages className="h-4 w-4" />
-                    </List.ItemStart>
-                    <Typography type="small">Pages</Typography>
-                    <List.ItemEnd className="ps-0.5">
-                      <NavArrowDown className="h-3.5 w-3.5 group-data-[open=true]:rotate-180" />
-                    </List.ItemEnd>
-                  </List.Item>
-                </Tooltip.Trigger>
-                <Tooltip.Content className="grid max-w-lg grid-cols-5 gap-1 rounded-lg border border-surface bg-background p-1 shadow-xl shadow-surface/5 dark:border-surface dark:bg-background">
-                  <Card
-                    color="primary"
-                    className="col-span-2 grid place-items-center rounded-[5px] px-8 py-4 text-primary-foreground shadow-none"
-                  >
-                    <div>
-                      <Rocket className="mx-auto h-12 w-12" />
-                      <Typography
-                        type="h6"
-                        className="mt-5 text-center leading-snug"
-                      >
-                        Material Tailwind PRO
-                      </Typography>
-                    </div>
-                  </Card>
-                  <ul className="col-span-3 !m-0">
-                    <MenuItem
-                      title="@material-tailwind/html"
-                      description="Learn how to use @material-tailwind/html, packed with rich components and widgets."
-                    />
-                    <MenuItem
-                      title="@material-tailwind/react"
-                      description="Learn how to use @material-tailwind/react, packed with rich components for React."
-                    />
-                    <MenuItem
-                      title="Material Tailwind PRO"
-                      description="A complete set of UI Elements for building faster websites in less time."
-                    />
-                  </ul>
-                  <Tooltip.Arrow />
-                </Tooltip.Content>
-              </Tooltip>
               <NavList />
             </List>
           </div>

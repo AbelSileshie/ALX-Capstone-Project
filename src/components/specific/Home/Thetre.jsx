@@ -1,42 +1,39 @@
 import React, { useState, useEffect } from "react";
-import { Card, Typography, IconButton } from "@material-tailwind/react";
+import { Card, Typography } from "@material-tailwind/react";
 import { StarSolid } from "iconoir-react";
 import { useBackgroundStore } from "../../../store/BackgroundStore";
 import { FetchMovies } from "../../../Services/Fetchmovies";
 import { posterpath } from "../../../utils/APIPath";
 import { UpcomingMovies } from "../../../utils/APIPath";
-import {
-  ArrowLeftCircleIcon,
-  ArrowRightCircleIcon,
-} from "@heroicons/react/24/solid";
 
-const Thetre = () => {
+const Theatre = () => {
   const [background, setBackground] = useState("");
   const [movies, setMovies] = useState([]);
-  console.log("Movies", background);
-  const handlebackground = (movie) => {
-    console.log("background" + `${posterpath}${movie.backdrop_path}`);
-    useBackgroundStore.setState({
-      background: `${posterpath}${movie.backdrop_path}`,
-    });
+
+  const handleBackground = (movie) => {
+    const newBackground = `${posterpath}${movie.backdrop_path}`;
+    setBackground(newBackground);
+    useBackgroundStore.setState({ background: newBackground });
   };
+
   useEffect(() => {
     const fetchAndStoreMovies = async () => {
       try {
         const apiUrl = UpcomingMovies;
         const movieData = await FetchMovies(apiUrl);
 
-        console.log("Movies", movieData);
-        setMovies(movieData.results);
+        if (movieData?.results?.length > 0) {
+          // Set the first movie's backdrop as the default background
+          handleBackground(movieData.results[0]);
+        }
+
+        setMovies(movieData.results || []);
       } catch (error) {
         console.error("Error in HeroSection fetch:", error);
       }
     };
 
     fetchAndStoreMovies();
-    return () => {
-      console.log("Component unmounted, movies:", movies);
-    };
   }, []);
 
   return (
@@ -47,15 +44,13 @@ const Thetre = () => {
             <Card
               key={movie.id}
               className="max-w-full w-[80vw] md:w-[27vw] mx-auto shadow-none bg-transparent border-none rounded-[1.5rem]"
-              onMouseEnter={() => handlebackground(movie)}
-              onMouseLeave={() => setBackground("")}
+              onMouseEnter={() => handleBackground(movie)}
             >
-              <Card.Body className="relative overflow-hidden p-0 lg:h-[15rem] sm:h-[13rem] shadow-lg">
+              <div className="relative overflow-hidden p-0 lg:h-[15rem] sm:h-[13rem] shadow-lg">
                 <img
                   src={`${posterpath}${movie.backdrop_path}`}
                   alt={movie.title}
                   className="w-full h-full object-cover shadow-lg"
-                  onAp
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/90 text-white flex items-end p-3">
                   <div className="w-full flex items-center justify-between">
@@ -71,7 +66,7 @@ const Thetre = () => {
                     </Typography>
                   </div>
                 </div>
-              </Card.Body>
+              </div>
             </Card>
           ))}
         </div>
@@ -80,4 +75,4 @@ const Thetre = () => {
   );
 };
 
-export default Thetre;
+export default Theatre;
