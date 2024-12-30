@@ -11,9 +11,10 @@ const Home = lazy(() => import("./Page/Home/Home"));
 
 function App() {
   const savedData = AuthStore((state) => state.user);
-  const savedToken = AuthStore((state) => state.token);
-
-  console.log(savedData, savedToken);
+  const savedToken = AuthStore.getState().token;
+  const data = AuthStore((state) => state.data);
+  console.log("saved Data", savedData);
+  console.log("saved Token", savedToken);
 
   return (
     <>

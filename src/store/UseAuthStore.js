@@ -1,3 +1,4 @@
+import { data } from "react-router-dom";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -9,12 +10,12 @@ export const AuthStore = create(
       token: null,
       setLogin: (data) => {
         set({
-          token: data.acceess_token,
+          token: "",
           user: data.user,
           isAuthenticated: true,
         });
       },
-      logout: () => set({ isAuthenticated: false, user: null }),
+      logout: () => set({ isAuthenticated: false, user: null, token: null }),
     }),
     {
       isAuthenticated: () => {
