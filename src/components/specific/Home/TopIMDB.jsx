@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, Typography, IconButton } from "@material-tailwind/react";
-import { StarSolid } from "iconoir-react";
+import { NavArrowLeft, NavArrowRight, StarSolid } from "iconoir-react";
 import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
@@ -100,62 +100,55 @@ const TopIMDB = () => {
   };
 
   return (
-    <div className="container grid grid-col items-center lg:mx-auto sm:mx-2 md:mx-0">
-      <div className="flex justify-between w-full mx-auto mb-4 my-auto">
-        <IconButton
-          onClick={handlePrevious}
-          disabled={currentPage === 0}
-          className=" bg-transparent hover:bg-gray-400 disabled:opacity-50 w-[2rem] h-[2rem] rounded-full border-none"
-        >
-          <ArrowLeftCircleIcon
-            className="text-black w-[2rem] h-[2rem]"
-            color="black"
-          />
-        </IconButton>
-        <IconButton
-          onClick={handleNext}
-          disabled={(currentPage + 1) * moviesPerPage >= dummyMovies.length}
-          className=" bg-transparent hover:bg-gray-400 disabled:opacity-50 w-[2rem] h-[2rem] rounded-full border-none"
-        >
-          <ArrowRightCircleIcon
-            className="text-black w-[2rem] h-[2rem]"
-            color="black"
-          />
-        </IconButton>
-      </div>
-
-      <div className="flex gap-0 grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 sm:w-[22rem] md:w-full lg:w-full mx-0">
-        <div className="col-span-1 sm:col-span-5 lg:col-span-5 flex flex-col-2 sm:flex-col-2 lg:flex-col-5 gap-5 w-full">
-          {visibleMovies.map((movie) => (
-            <Card
-              key={movie.id}
-              className="w-full lg:max-w-[20rem] sm:max-w-[20rem] md:max-w-[13rem] shadow-none bg-transparent border-none rounded-[2rem] sm:mx-auto p-0 lg:ml-5 sm:ml-0 md:ml-5"
-            >
-              <Card.Body className="relative overflow-hidden p-0 lg:h-[15rem] sm:h-[15rem] shadow-lg ">
-                <img
-                  src={movie.image}
-                  alt={movie.title}
-                  className="w-full h-full object-cover shadow-lg"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/90 text-white flex items-end p-3">
-                  <div className="w-full flex items-center justify-between">
-                    <Typography
-                      variant="h1"
-                      className="sm:text-sm md:text-xl lg:text-xl text-justify font-extrabold text-grey-100"
-                    >
-                      {movie.title}
-                    </Typography>
-                    <Typography className="flex items-center gap-1.5">
-                      <StarSolid className="h-[18px] w-[18px] text-warning" />
-                      5.0
-                    </Typography>
-                  </div>
-                </div>
-              </Card.Body>
-            </Card>
-          ))}
+    <div className="container mx-auto p-4">
+      <div className="flex items-center justify-between p-4">
+        <Typography>Trending Movies</Typography>
+        <div className="flex gap-2">
+          <IconButton
+            onClick={handlePrevious}
+            disabled={currentPage === 0}
+            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
+          >
+            <NavArrowLeft className="h-6 w-6 text-black" />
+          </IconButton>
+          <IconButton
+            onClick={handleNext}
+            disabled={(currentPage + 1) * moviesPerPage >= dummyMovies.length}
+            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
+          >
+            <NavArrowRight className="h-6 w-6 text-black" />
+          </IconButton>
         </div>
-        <div className="flex justify-end items-center col-span-1 sm:col-span-1 lg:col-span-1 w-auto my-auto mx-2"></div>
+      </div>
+      <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        {visibleMovies.map((movie) => (
+          <Card
+            key={movie.id}
+            className="w-full max-w-[30rem] shadow-none bg-transparent border-none rounded-2xl"
+          >
+            <Card.Body className="relative overflow-hidden p-0 h-64 shadow-lg">
+              <img
+                src={movie.image}
+                alt={movie.title}
+                className="w-full h-full object-cover shadow-lg"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/90 text-white flex items-end p-3">
+                <div className="w-full flex items-center justify-between">
+                  <Typography
+                    variant="h1"
+                    className="text-lg font-extrabold text-gray-100"
+                  >
+                    {movie.title}
+                  </Typography>
+                  <Typography className="flex items-center gap-1.5">
+                    <StarSolid className="h-5 w-5 text-yellow-500" />
+                    5.0
+                  </Typography>
+                </div>
+              </div>
+            </Card.Body>
+          </Card>
+        ))}
       </div>
     </div>
   );

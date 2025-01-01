@@ -29,15 +29,11 @@ import {
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { BookmarkIcon } from "@heroicons/react/24/solid";
 import { FetchMovies } from "../../../Services/Fetchmovies";
-import { UseDiscover } from "../../../store/UseMovieStore";
 import { posterpath } from "../../../utils/APIPath";
 import Error500 from "../../error/Error500";
 import { DiscoverMovies } from "../../../utils/APIPath";
 import { Spiner } from "../../layout/Spiner";
-import Moviedetail from "../../../Page/Movie/Moviedetail";
 import { useNavigate } from "react-router-dom";
-import Navigation1 from "../../layout/Navigation";
-
 function CustomNavigation() {
   const swiper = useSwiper();
 
@@ -125,14 +121,14 @@ export default function Herosection() {
                     <img
                       src={`${posterpath}${movie.backdrop_path}`}
                       alt={`image-${movie.title}`}
-                      className="h-[75vh] md:h-[32rem] lg:h-[35rem] w-full sm:0bject-center md:object-cover lg:object-cover"
+                      className="h-[100vh] md:h-[32rem] lg:h-[35rem] w-full sm:0bject-center md:object-center lg:object-centerp"
                       style={{ objectFit: "cover" }}
                     />
                     <div className="absolute inset-0 bottom-0 left-0 bg-gradient-to-t from-black via-transparent to-transparent">
                       <div className="relative container mx-auto lg:px-2 sm:px-0 flex items-end p-1 justify-start h-full text-center text-white gap-5  bg-transparent ">
                         <Card
                           onClick={() => selecthandler(movie)}
-                          className="w-full max-w-[10rem] shadow-none bg-transparent border-none rounded-[2rem] p-1 sm:hidden lg:block md:block cursor-pointerx  "
+                          className="w-full max-w-[10rem] shadow-none bg-transparent border-none rounded-[2rem] p-1 sm:hidden lg:block md:block cursor-pointer  "
                         >
                           <Card.Body className="relative overflow-hidden p-0 lg:h-[13rem] md:h-[13rem] sm:h-[15rem] shadow-lg">
                             <img

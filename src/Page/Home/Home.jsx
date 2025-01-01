@@ -12,7 +12,7 @@ const Home = () => {
   const background = useBackgroundStore((state) => state.background);
 
   return (
-    <div className="flex flex-col p-0 mt-0 space-y-6 bg-gray-50 rounded-lg shadow-md">
+    <div className="flex flex-col p-0 mt-0 rounded-lg shadow-md mx-auto w-full">
       <section>
         <Suspense fallback={<Error500 />}>
           <div className="w-full">
@@ -23,31 +23,16 @@ const Home = () => {
       <section>
         <div className="w-full">
           <h2 className="text-xl font-semibold text-gray-800 mb-4 p-3">
-            Featured Movies
+            Featured Today
           </h2>
           <FeaturedToday />
         </div>
       </section>
       <section>
         <div className="w-full">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4 p-3">
-            Trending Movies
-          </h2>
           <TrendingMoviesCard />
         </div>
       </section>
-
-      {/* Upcoming Movies Section */}
-      <section>
-        <div className="w-full">
-          <Typography className="bg-gradient-to-tl from-black/5 via-transparent to-black/10 text-xl text-black font-bold mb-4 p-3">
-            Upcoming Movies
-          </Typography>
-          <TopIMDB />
-        </div>
-      </section>
-
-      {/* Background-based Theatre Section */}
       <section
         className={`bg-cover bg-center bg-no-repeat bg-gradient-to-tl from-black/30 via-transparent to-black/90 text-white`}
         style={{ backgroundImage: `url(${background})` }}
@@ -59,6 +44,11 @@ const Home = () => {
         </div>
         <div className="w-full h-auto p-8 overflow-y-auto">
           <Theatre />
+        </div>
+      </section>
+      <section>
+        <div className="w-full">
+          <TopIMDB />
         </div>
       </section>
     </div>
