@@ -16,14 +16,14 @@ export function Spiner() {
   }, []);
 
   return (
-    <div className="">
+    <div className="flex items-center justify-center min-h-screen">
       {showError ? (
         <>
           <Error404 />
         </>
       ) : (
-        <div className="h-[10rem] w-[10rem] mx-auto my-auto mt-[50vh]">
-          <Spinner />
+        <div className="flex items-center justify-center h-full w-full">
+          <Spinner size="xxl" />
         </div>
       )}
     </div>

@@ -79,7 +79,7 @@ const FeaturedToday = () => {
         <div className=" justify-between items-end w-full h-full">
           <Typography>Test</Typography>
         </div>
-        <div className="flex">
+        <div className="flex gap-3">
           <IconButton
             onClick={handlePrevious}
             disabled={currentPage === 0}

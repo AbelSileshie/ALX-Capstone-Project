@@ -6,7 +6,7 @@ import TrendingMoviesCard from "../../components/specific/Home/Tredingmoviescard
 import Theatre from "../../components/specific/Home/Thetre";
 import { Typography } from "@material-tailwind/react";
 import { useBackgroundStore } from "../../store/BackgroundStore";
-import Error500 from "../../components/error/Error500";
+const Spiner = React.lazy(() => import("../../components/layout/Spiner"));
 
 const Home = () => {
   const background = useBackgroundStore((state) => state.background);
@@ -14,24 +14,25 @@ const Home = () => {
   return (
     <div className="flex flex-col p-0 mt-0 rounded-lg shadow-md mx-auto w-full">
       <section>
-        <Suspense fallback={<Error500 />}>
+        <Suspense fallback={<Spiner />}>
           <div className="w-full">
             <Heroscetion />
           </div>
         </Suspense>
       </section>
       <section>
-        <div className="w-full">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4 p-3">
-            Featured Today
-          </h2>
-          <FeaturedToday />
-        </div>
+        <Suspense fallback={<Spiner />}>
+          <div className="w-full">
+            <FeaturedToday />
+          </div>
+        </Suspense>
       </section>
       <section>
-        <div className="w-full">
-          <TrendingMoviesCard />
-        </div>
+        <Suspense fallback={<Spiner />}>
+          <div className="w-full">
+            <TrendingMoviesCard />
+          </div>
+        </Suspense>
       </section>
       <section
         className={`bg-cover bg-center bg-no-repeat bg-gradient-to-tl from-black/30 via-transparent to-black/90 text-white`}
@@ -43,13 +44,17 @@ const Home = () => {
           </Typography>
         </div>
         <div className="w-full h-auto p-8 overflow-y-auto">
-          <Theatre />
+          <Suspense fallback={<Spiner />}>
+            <Theatre />
+          </Suspense>
         </div>
       </section>
       <section>
-        <div className="w-full">
-          <TopIMDB />
-        </div>
+        <Suspense fallback={<Spiner />}>
+          <div className="w-full">
+            <TopIMDB />
+          </div>
+        </Suspense>
       </section>
     </div>
   );

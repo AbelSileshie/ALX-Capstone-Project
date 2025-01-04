@@ -100,33 +100,33 @@ const TopIMDB = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex items-center justify-between p-4">
+    <div className="grid mx-auto p-4 w-full">
+      <div className="flex items-center justify-between p-4 sm:max-w-[25rem] md:max-w-[30rem] lg:max-w-[90rem] pr-6">
         <Typography>Trending Movies</Typography>
         <div className="flex gap-2">
           <IconButton
             onClick={handlePrevious}
             disabled={currentPage === 0}
-            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
+            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-4 h-4 rounded-full"
           >
-            <NavArrowLeft className="h-6 w-6 text-black" />
+            <NavArrowLeft className="h-3 w-3 text-black" />
           </IconButton>
           <IconButton
             onClick={handleNext}
             disabled={(currentPage + 1) * moviesPerPage >= dummyMovies.length}
-            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
+            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-2 h-2 rounded-full"
           >
-            <NavArrowRight className="h-6 w-6 text-black" />
+            <NavArrowRight className="h-3 w-3 text-black" />
           </IconButton>
         </div>
       </div>
-      <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+      <div className="grid gap-5 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-5 w-[24rem] md:w-full lg:w-full mx-auto sm:mr-[12rem] pr-4">
         {visibleMovies.map((movie) => (
           <Card
             key={movie.id}
-            className="w-full max-w-[30rem] shadow-none bg-transparent border-none rounded-2xl"
+            className="max-w-full w-[100vw] md:w-[90vw] mx-auto shadow-none bg-transparent border-none"
           >
-            <Card.Body className="relative overflow-hidden p-0 h-64 shadow-lg">
+            <Card.Body className="relative overflow-hidden p-0 h-[13rem] shadow-lg">
               <img
                 src={movie.image}
                 alt={movie.title}
