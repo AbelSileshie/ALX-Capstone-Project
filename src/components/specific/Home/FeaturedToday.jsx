@@ -101,7 +101,7 @@ const FeaturedToday = () => {
           {visibleMovies.map((movie) => (
             <Card
               key={movie.id}
-              className="lg:w-full md:w-full sm:w-[24rem] lg:mx-0 sm:mx-2 shadow-none border-none rounded-[1.5rem] bg-white bg-opacity-40"
+              className="lg:w-full md:w-full sm:min-w-[24rem] lg:mx-0 sm:mx-2 shadow-none border-none rounded-[1.5rem] bg-white bg-opacity-40 "
             >
               <Card.Body className="relative overflow-hidden p-0 lg:h-[15rem] sm:h-[13rem]">
                 <div
