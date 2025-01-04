@@ -104,6 +104,7 @@ export default function Navigation() {
           <Typography
             type="small"
             className="ml-2 mr-2 block py-1 font-semibold cursor-pointer"
+            onClick={() => Navigate("/")}
           >
             FMovies
           </Typography>
@@ -140,7 +141,7 @@ export default function Navigation() {
               </svg>
             </IconButton>
           ) : (
-            <Button onClick={Navigate("/Login")}>Login</Button>
+            <Button onClick={() => Navigate("/Login")}>Login</Button>
           )}
           <IconButton
             size="sm"
