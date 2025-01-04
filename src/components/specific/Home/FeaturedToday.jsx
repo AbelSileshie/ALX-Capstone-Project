@@ -96,12 +96,12 @@ const FeaturedToday = () => {
           </IconButton>{" "}
         </div>
       </div>
-      <div className="container mx-auto w-full">
+      <div className="container w-full lg:mx-auto sm:mx-0 md:mx-auto">
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full justify-center items-center">
           {visibleMovies.map((movie) => (
             <Card
               key={movie.id}
-              className="max-w-[50rem] mx-auto shadow-none border-none rounded-[1.5rem] bg-white bg-opacity-40"
+              className="lg:w-full md:w-full sm:w-[24rem] lg:mx-0 sm:mx-4 shadow-none border-none rounded-[1.5rem] bg-white bg-opacity-40"
             >
               <Card.Body className="relative overflow-hidden p-0 lg:h-[15rem] sm:h-[13rem]">
                 <div
