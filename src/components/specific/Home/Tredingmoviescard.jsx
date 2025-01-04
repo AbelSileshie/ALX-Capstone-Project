@@ -101,22 +101,22 @@ const TrendingMoviesCard = () => {
 
   return (
     <div className="grid mx-auto p-4 w-full">
-      <div className="flex items-center justify-between p-4 sm:max-w-[25rem] md:max-w-[30rem] lg:max-w-[90rem]">
+      <div className="flex items-center justify-between p-4 sm:max-w-[25rem] md:max-w-[30rem] lg:max-w-[90rem] pr-6">
         <Typography>Trending Movies</Typography>
         <div className="flex gap-2">
           <IconButton
             onClick={handlePrevious}
             disabled={currentPage === 0}
-            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
+            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-4 h-4 rounded-full"
           >
-            <NavArrowLeft className="h-6 w-6 text-black" />
+            <NavArrowLeft className="h-3 w-3 text-black" />
           </IconButton>
           <IconButton
             onClick={handleNext}
             disabled={(currentPage + 1) * moviesPerPage >= dummyMovies.length}
-            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
+            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-2 h-2 rounded-full"
           >
-            <NavArrowRight className="h-6 w-6 text-black" />
+            <NavArrowRight className="h-3 w-3 text-black" />
           </IconButton>
         </div>
       </div>
