@@ -1,44 +1,50 @@
 import React, { useState, useEffect } from "react";
-import { Card, Typography, Button, IconButton } from "@material-tailwind/react";
+import {
+  Card,
+  Typography,
+  IconButton,
+  Tooltip,
+  Chip,
+} from "@material-tailwind/react";
 import { StarSolid } from "iconoir-react";
 import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
 } from "@heroicons/react/24/solid";
+import { posterpath, UpcomingMovies } from "../../../utils/APIPath";
+import { FetchMovies } from "../../../Services/Fetchmovies";
 
 const FeaturedToday = () => {
-  const dummyMovies = [
-    {
-      id: 1,
-      title: "Movie 1",
-      description: "Description of Movie 1",
-      image:
-        "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=1600&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 2,
-      title: "Movie 2",
-      description: "Description of Movie 2",
-      image:
-        "https://plus.unsplash.com/premium_photo-1673603988651-99f79e4ae7d3?w=1600&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 3,
-      title: "Movie 3",
-      description: "Description of Movie 3",
-      image:
-        "https://images.unsplash.com/photo-1465189684280-6a8fa9b19a7a?w=1600&auto=format&fit=crop&q=80",
-    },
-  ];
-
+  const [dummyMovies, SetDummyMovies] = useState([]);
   const [visibleMovies, setVisibleMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [moviesPerPage, setMoviesPerPage] = useState(1);
 
   useEffect(() => {
+    const fetchAndStoreMovies = async () => {
+      try {
+        const apiUrl = UpcomingMovies;
+        const movieData = await FetchMovies(apiUrl);
+
+        if (Array.isArray(movieData.results)) {
+          SetDummyMovies(movieData.results);
+        } else {
+          console.warn("Unexpected API response:", movieData);
+          SetDummyMovies([]);
+        }
+      } catch (error) {
+        console.error("Error in HeroSection fetch:", error);
+        SetDummyMovies([]);
+      }
+    };
+
+    fetchAndStoreMovies();
+  }, []);
+
+  useEffect(() => {
     const handleResize = () => {
       const isLargeScreen = window.matchMedia("(min-width: 1024px)").matches;
-      setMoviesPerPage(isLargeScreen ? 5 : 1);
+      setMoviesPerPage(isLargeScreen ? 3 : 1);
     };
 
     handleResize();
@@ -50,10 +56,13 @@ const FeaturedToday = () => {
     const startIndex = currentPage * moviesPerPage;
     const endIndex = startIndex + moviesPerPage;
     setVisibleMovies(dummyMovies.slice(startIndex, endIndex));
-  }, [currentPage, moviesPerPage]);
+  }, [currentPage, moviesPerPage, dummyMovies]);
 
   const handleNext = () => {
-    if ((currentPage + 1) * moviesPerPage < dummyMovies.length) {
+    if (
+      dummyMovies.length > 0 &&
+      (currentPage + 1) * moviesPerPage < dummyMovies.length
+    ) {
       setCurrentPage((prev) => prev + 1);
     }
   };
@@ -65,58 +74,85 @@ const FeaturedToday = () => {
   };
 
   return (
-    <div className="container lg:mx-auto sm:mx-0 md:mx-0">
-      <div className="flex justify-between items-center w-full mb-4">
-        <IconButton
-          onClick={handlePrevious}
-          disabled={currentPage === 0}
-          className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-[2rem] h-[2rem] rounded-full border-none"
-        >
-          <ArrowLeftCircleIcon className="text-black w-[2rem] h-[2rem]" />
-        </IconButton>
-
-        <div className="grid flex-col-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-5">
+    <div>
+      <div className="flex justify-start items-center p-2">
+        <div className=" justify-between items-end w-full h-full">
+          <Typography>Test</Typography>
+        </div>
+        <div className="flex">
+          <IconButton
+            onClick={handlePrevious}
+            disabled={currentPage === 0}
+            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-[2rem] h-[2rem] rounded-full border-none"
+          >
+            <ArrowLeftCircleIcon className="text-black w-[2rem] h-[2rem]" />
+          </IconButton>
+          <IconButton
+            onClick={handleNext}
+            disabled={(currentPage + 1) * moviesPerPage >= dummyMovies.length}
+            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-[2rem] h-[2rem] rounded-full border-none"
+          >
+            <ArrowRightCircleIcon className="text-black w-[2rem] h-[2rem]" />
+          </IconButton>{" "}
+        </div>
+      </div>
+      <div className="container mx-auto w-full">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full justify-center items-center">
           {visibleMovies.map((movie) => (
             <Card
               key={movie.id}
-              className="max-w-full w-[50rem] md:w-[27vw] mx-auto shadow-none border-none rounded-[1.5rem] bg-opacity-40"
-              style={{
-                backgroundcolor: `white`,
-                backgroundSize: "center",
-                backgroundOpacity: "10%",
-              }}
+              className="max-w-[50rem] mx-auto shadow-none border-none rounded-[1.5rem] bg-white bg-opacity-40"
             >
-              <Card.Body className="relative overflow-hidden p-0 lg:h-[15rem] sm:h-[13rem] ">
-                <img
-                  src={movie.image}
-                  alt={movie.title}
-                  className="w-[10rem] h-[10rem] object-cover p-4  shadow-none border-none -translate-x-0.5 mt-[1%] rounded-[2rem]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/90 text-white flex items-end p-3">
-                  <div className="w-full flex items-center justify-between">
-                    {/* <Typography
-                      variant="h1"
-                      className="sm:text-lg md:text-xl lg:text-xl text-justify font-extrabold text-gray-100"
-                    >
-                      {movie.title}
-                    </Typography>
-                    <Typography className="flex items-center gap-1.5">
-                      <StarSolid className="h-[18px] w-[18px] text-warning" />
-                      5.0
-                    </Typography> */}
+              <Card.Body className="relative overflow-hidden p-0 lg:h-[15rem] sm:h-[13rem]">
+                <div
+                  className="relative w-full h-full"
+                  style={{
+                    backgroundImage: `url(${posterpath}${movie.backdrop_path})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  <div className="flex w-full h-full inset-0 bg-gradient-to-b from-black/40 to-black/80  flex-col justify-center items- p-2 text-white">
+                    <div className="flex">
+                      <img
+                        src={`${posterpath}${movie.poster_path}`}
+                        alt={movie.title}
+                        className="w-[7rem] h-full object-cover object-center rounded-md mr-2"
+                      />
+                      <div className="grid items-center justify-start">
+                        <div className="flex items-center mt-2">
+                          <Typography
+                            variant="h2"
+                            className="font-extrabold mr-3"
+                          >
+                            {movie.title}
+                          </Typography>
+                          <StarSolid className="h-5 w-5 text-yellow-400 mr-1" />
+                          <Typography>{movie.vote_average}</Typography>
+                        </div>
+                        <Typography className="font-extralight text-justify w-22 p-1 break-words line-clamp-3">
+                          {movie.overview}
+                        </Typography>
+                        <div className="flex flex-co items-center gap-4">
+                          <Chip isPill={false} variant="solid">
+                            <Chip.Label>Action</Chip.Label>
+                          </Chip>
+                          <Chip isPill={false} variant="solid">
+                            <Chip.Label>Action</Chip.Label>
+                          </Chip>
+                        </div>
+                        <div className="p-2 flex gap-4">
+                          <Typography>Save</Typography>
+                          <Typography>More Info</Typography>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Card.Body>
             </Card>
           ))}
         </div>
-        <IconButton
-          onClick={handleNext}
-          disabled={(currentPage + 1) * moviesPerPage >= dummyMovies.length}
-          className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-[2rem] h-[2rem] rounded-full border-none"
-        >
-          <ArrowRightCircleIcon className="text-black w-[2rem] h-[2rem]" />
-        </IconButton>
       </div>
     </div>
   );

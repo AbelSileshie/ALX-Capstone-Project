@@ -23,7 +23,6 @@ const Theatre = () => {
         const movieData = await FetchMovies(apiUrl);
 
         if (movieData?.results?.length > 0) {
-          // Set the first movie's backdrop as the default background
           handleBackground(movieData.results[0]);
         }
 
