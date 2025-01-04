@@ -75,21 +75,26 @@ const FeaturedToday = () => {
           <ArrowLeftCircleIcon className="text-black w-[2rem] h-[2rem]" />
         </IconButton>
 
-        <div className="flex flex-col-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-5">
+        <div className="grid flex-col-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-5">
           {visibleMovies.map((movie) => (
             <Card
               key={movie.id}
-              className="max-w-full w-[80vw] md:w-[27vw] mx-auto shadow-none bg-transparent border-none rounded-[1.5rem]"
+              className="max-w-full w-[50rem] md:w-[27vw] mx-auto shadow-none border-none rounded-[1.5rem] bg-opacity-40"
+              style={{
+                backgroundcolor: `white`,
+                backgroundSize: "center",
+                backgroundOpacity: "10%",
+              }}
             >
-              <Card.Body className="relative overflow-hidden p-0 lg:h-[15rem] sm:h-[13rem] shadow-lg">
+              <Card.Body className="relative overflow-hidden p-0 lg:h-[15rem] sm:h-[13rem] ">
                 <img
                   src={movie.image}
                   alt={movie.title}
-                  className="w-full h-full object-cover shadow-lg"
+                  className="w-[10rem] h-[10rem] object-cover p-4  shadow-none border-none -translate-x-0.5 mt-[1%] rounded-[2rem]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/90 text-white flex items-end p-3">
                   <div className="w-full flex items-center justify-between">
-                    <Typography
+                    {/* <Typography
                       variant="h1"
                       className="sm:text-lg md:text-xl lg:text-xl text-justify font-extrabold text-gray-100"
                     >
@@ -98,7 +103,7 @@ const FeaturedToday = () => {
                     <Typography className="flex items-center gap-1.5">
                       <StarSolid className="h-[18px] w-[18px] text-warning" />
                       5.0
-                    </Typography>
+                    </Typography> */}
                   </div>
                 </div>
               </Card.Body>
