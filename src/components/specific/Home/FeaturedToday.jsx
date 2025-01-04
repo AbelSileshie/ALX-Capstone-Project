@@ -6,7 +6,7 @@ import {
   Tooltip,
   Chip,
 } from "@material-tailwind/react";
-import { StarSolid } from "iconoir-react";
+import { NavArrowLeft, NavArrowRight, StarSolid } from "iconoir-react";
 import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
@@ -83,17 +83,17 @@ const FeaturedToday = () => {
           <IconButton
             onClick={handlePrevious}
             disabled={currentPage === 0}
-            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-[2rem] h-[2rem] rounded-full border-none"
+            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
           >
-            <ArrowLeftCircleIcon className="text-black w-[2rem] h-[2rem]" />
+            <NavArrowLeft className="h-6 w-6 text-black" />
           </IconButton>
           <IconButton
             onClick={handleNext}
             disabled={(currentPage + 1) * moviesPerPage >= dummyMovies.length}
-            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-[2rem] h-[2rem] rounded-full border-none"
+            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
           >
-            <ArrowRightCircleIcon className="text-black w-[2rem] h-[2rem]" />
-          </IconButton>{" "}
+            <NavArrowRight className="h-6 w-6 text-black" />
+          </IconButton>
         </div>
       </div>
       <div className="container w-full lg:mx-auto sm:mx-0 md:mx-auto">

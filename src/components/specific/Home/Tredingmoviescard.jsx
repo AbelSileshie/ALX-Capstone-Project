@@ -120,7 +120,7 @@ const TrendingMoviesCard = () => {
           </IconButton>
         </div>
       </div>
-      <div className="grid gap-5 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-5 w-[24rem] md:w-full lg:w-full mx-auto sm:mr-[12rem]">
+      <div className="grid gap-5 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-5 w-[24rem] md:w-full lg:w-full mx-auto sm:mr-[12rem] pr-4">
         {visibleMovies.map((movie) => (
           <Card
             key={movie.id}
