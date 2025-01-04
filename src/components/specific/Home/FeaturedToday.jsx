@@ -97,7 +97,7 @@ const FeaturedToday = () => {
         </div>
       </div>
       <div className="container w-full lg:mx-auto sm:mx-0 md:mx-auto ">
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:w-[95vw] md:w-[90vw] sm:w-[88vw] justify-center items-center">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:w-[95vw] md:w-[90vw] sm:w-[90vw] justify-center items-center">
           {visibleMovies.map((movie) => (
             <Card
               key={movie.id}
