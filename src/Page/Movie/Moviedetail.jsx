@@ -51,14 +51,14 @@ const Moviedetail = () => {
             <div className="sticky top-0 left-0 w-full z-50 bg-white shadow-md p-2 bg-transparent">
               <Navigation />
             </div>
-            <main className="pb-8 w-[100vw]">
-              <section className="flex pt-2 p-2">
-                <div className=" w-full h-full bg-gray-100">
+            <main className="pb-8 w-[100vw] contaner mx-auto">
+              <section className="">
+                <div className="bg-gray-900 text-white rounded-lg shadow-lg grid flex-col md:flex-row">
                   <div className="">
                     <div className="p-2">
                       <Typography type="h3">{selectedmovie.title}</Typography>
                     </div>
-                    <div className="flex items-center gap-4 w-full  m-2">
+                    <div className="flex items-center gap-4 w-full m-2">
                       <div className="w-full">
                         <ul className="flex items-center gap-2">
                           <li>
@@ -94,20 +94,38 @@ const Moviedetail = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex ">
-                    <div className=" w-full sm:hidden lg:block md:block">
+                  <div className="grid ">
+                    <div className="w-full mr-2 md:mb-0 h-full">
                       <img
                         src={`https://image.tmdb.org/t/p/original${selectedmovie.poster_path}`}
                         alt={selectedmovie.title}
-                        className="w-full h-full rounded-lg shadow-md object-center object-cover"
+                        className="rounded-lg shadow-md w-full h-[30rem] object-center object-cover"
                       />
                     </div>
                     <div className="">
-                      <img
-                        src={`https://image.tmdb.org/t/p/original${selectedmovie.backdrop_path}`}
-                        alt={selectedmovie.title}
-                        className="w-full h-auto rounded-lg shadow-md object-center"
-                      />
+                      <div className="w-full">
+                        <div className="">
+                          <img
+                            src={`https://image.tmdb.org/t/p/original${selectedmovie.backdrop_path}`}
+                            alt="Dune: Part Two Poster"
+                            className="rounded-lg shadow-md w-full hidden"
+                          />
+                        </div>
+                        <Typography className="text-justify sm:text-sm md:text-base lg:text-lg  md:max-w-[20rem] lg:max-w-[35rem] break-words line-clamp-5">
+                          {selectedmovie.overview}
+                        </Typography>
+                        <div className="flex flex-col md:flex-row md:items-center">
+                          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4 mb-2 md:mb-0 w-full">
+                            ► Trailer
+                          </button>
+                          <button className="bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded">
+                            Add to Watchlist
+                          </button>
+                          <span className="ml-2 mt-2 md:mt-0 text-sm text-gray-500">
+                            52K
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
