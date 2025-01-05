@@ -18,7 +18,7 @@ const FeaturedToday = () => {
   const [dummyMovies, SetDummyMovies] = useState([]);
   const [visibleMovies, setVisibleMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [moviesPerPage, setMoviesPerPage] = useState(1);
+  const [moviesPerPage, setMoviesPerPage] = useState(null);
 
   useEffect(() => {
     const fetchAndStoreMovies = async () => {
@@ -43,14 +43,46 @@ const FeaturedToday = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const isLargeScreen = window.matchMedia("(min-width: 1024px)").matches;
-      setMoviesPerPage(isLargeScreen ? 3 : 1);
+      const screenWidth = window.innerWidth;
+
+      if (screenWidth >= 1280) {
+        setMoviesPerPage(3);
+      } else if (screenWidth >= 1024) {
+        setMoviesPerPage(3);
+      } else if (screenWidth >= 768) {
+        setMoviesPerPage(2);
+      } else {
+        setMoviesPerPage(1);
+      }
     };
 
+    const fetchTrending = async () => {
+      try {
+        // Simulate fetching movies from an API
+        const fetchedMovies = await new Promise((resolve) =>
+          setTimeout(() => resolve(dummyMovies), 1000)
+        );
+
+        setVisibleMovies(fetchedMovies.slice(0, moviesPerPage));
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+      }
+    };
+
+    // Initialize moviesPerPage based on the current window width
     handleResize();
+
+    // Fetch and set movies after moviesPerPage is defined
+    fetchTrending();
+
+    // Attach the resize listener
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+
+    return () => {
+      // Clean up the event listener
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [moviesPerPage]);
 
   useEffect(() => {
     const startIndex = currentPage * moviesPerPage;
@@ -74,7 +106,7 @@ const FeaturedToday = () => {
   };
 
   return (
-    <div className="">
+    <div className="w-full md:mx-auto lg:mx-auto sm:mx-0">
       <div className="flex justify-start items-center p-4">
         <div className=" justify-between items-end w-full h-full">
           <Typography>Test</Typography>
@@ -96,7 +128,7 @@ const FeaturedToday = () => {
           </IconButton>
         </div>
       </div>
-      <div className="container w-full lg:mx-auto sm:mx-0 md:mx-auto ">
+      <div className="container w-screen lg:mx-auto sm:mx-0 md:mx-auto ">
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:w-[95vw] md:w-[90vw] sm:w-[90vw] justify-center items-center">
           {visibleMovies.map((movie) => (
             <Card

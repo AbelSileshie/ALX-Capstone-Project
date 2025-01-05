@@ -12,50 +12,46 @@ const Home = () => {
   const background = useBackgroundStore((state) => state.background);
 
   return (
-    <div className="flex flex-col p-0 mt-0 rounded-lg shadow-md mx-auto w-full">
-      <section>
-        <Suspense fallback={<Spiner />}>
-          <div className="w-full">
-            <Heroscetion />
-          </div>
-        </Suspense>
-      </section>
-      <section>
-        <Suspense fallback={<Spiner />}>
-          <div className="w-full">
-            <FeaturedToday />
-          </div>
-        </Suspense>
-      </section>
-      <section>
-        <Suspense fallback={<Spiner />}>
-          <div className="w-full">
-            <TrendingMoviesCard />
-          </div>
-        </Suspense>
-      </section>
-      <section
-        className={`bg-cover bg-center bg-no-repeat bg-gradient-to-tl from-black/30 via-transparent to-black/90 text-white`}
-        style={{ backgroundImage: `url(${background})` }}
-      >
-        <div>
-          <Typography className="w-[20rem] bg-gradient-to-tl from-black/30 via-transparent to-black/10 text-xl text-black font-bold mb-4 p-3">
-            Upcoming Movies
-          </Typography>
-        </div>
-        <div className="w-full h-auto p-8 overflow-y-auto">
+    <div className="w-full flex flex-col mt-0 rounded-lg  mx-auto shadow-none">
+      <div className="w-full">
+        <section className="w-[98vw] h-auto mx-auto">
           <Suspense fallback={<Spiner />}>
-            <Theatre />
+            <Heroscetion />
           </Suspense>
-        </div>
-      </section>
-      <section>
-        <Suspense fallback={<Spiner />}>
-          <div className="w-full">
-            <TopIMDB />
+        </section>
+
+        <section className="">
+          <Suspense fallback={<Spiner />}>
+            <FeaturedToday />
+          </Suspense>
+        </section>
+
+        {/* Trending Movies */}
+        <section className="">
+          <Suspense fallback={<Spiner />}>
+            <TrendingMoviesCard />
+          </Suspense>
+        </section>
+
+        {/* Theatre Section */}
+        <section
+          className="bg-cover bg-center bg-no-repeat bg-gradient-to-tl from-black/30 via-transparent to-black/90 text-white"
+          style={{ backgroundImage: `url(${background})` }}
+        >
+          <div className="w-full h-auto p-8 overflow-y-auto">
+            <Suspense fallback={<Spiner />}>
+              <Theatre />
+            </Suspense>
           </div>
-        </Suspense>
-      </section>
+        </section>
+
+        {/* Top IMDB Section */}
+        <section className="">
+          <Suspense fallback={<Spiner />}>
+            <TopIMDB />
+          </Suspense>
+        </section>
+      </div>
     </div>
   );
 };

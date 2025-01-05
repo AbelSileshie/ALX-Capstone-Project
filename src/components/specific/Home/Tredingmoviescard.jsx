@@ -72,14 +72,39 @@ const TrendingMoviesCard = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const isLargeScreen = window.matchMedia("(min-width: 1024px)").matches;
-      setMoviesPerPage(isLargeScreen ? 5 : 2);
+      const screenWidth = window.innerWidth;
+
+      if (screenWidth >= 1280) {
+        setMoviesPerPage(5);
+      } else if (screenWidth >= 1024) {
+        setMoviesPerPage(5);
+      } else if (screenWidth >= 768) {
+        setMoviesPerPage(3);
+      } else {
+        setMoviesPerPage(2);
+      }
     };
 
+    const fetchMovies = async () => {
+      try {
+        // Simulate fetching movies from an API
+        const fetchedMovies = await new Promise((resolve) =>
+          setTimeout(() => resolve(dummyMovies), 1000)
+        );
+
+        setVisibleMovies(fetchedMovies.slice(0, moviesPerPage));
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+      }
+    };
     handleResize();
+    fetchMovies();
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [moviesPerPage]);
 
   useEffect(() => {
     const startIndex = currentPage * moviesPerPage;
@@ -100,31 +125,33 @@ const TrendingMoviesCard = () => {
   };
 
   return (
-    <div className="grid mx-auto p-4 w-full">
-      <div className="flex items-center justify-between p-4 sm:max-w-[25rem] md:max-w-[30rem] lg:max-w-[90rem] pr-6">
-        <Typography>Trending Movies</Typography>
-        <div className="flex gap-2">
+    <div className="w-full pb-4">
+      <div className="flex justify-start items-center p-4">
+        <div className=" justify-between items-end w-full h-full ">
+          <Typography>Test</Typography>
+        </div>
+        <div className="flex gap-3">
           <IconButton
             onClick={handlePrevious}
             disabled={currentPage === 0}
-            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-4 h-4 rounded-full"
+            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
           >
-            <NavArrowLeft className="h-3 w-3 text-black" />
+            <NavArrowLeft className="h-6 w-6 text-black" />
           </IconButton>
           <IconButton
             onClick={handleNext}
             disabled={(currentPage + 1) * moviesPerPage >= dummyMovies.length}
-            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-2 h-2 rounded-full"
+            className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
           >
-            <NavArrowRight className="h-3 w-3 text-black" />
+            <NavArrowRight className="h-6 w-6 text-black" />
           </IconButton>
         </div>
       </div>
-      <div className="grid gap-5 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-5 w-[24rem] md:w-full lg:w-full mx-auto sm:mr-[12rem] pr-4">
+      <div className="grid gap-5 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-5 w-[21rem] md:w-full lg:w-full mx-1">
         {visibleMovies.map((movie) => (
           <Card
             key={movie.id}
-            className="max-w-full w-[100vw] md:w-[90vw] mx-auto shadow-none bg-transparent border-none"
+            className="max-w-full  md:w-[90vw] mx-auto shadow-none bg-transparent border-none"
           >
             <Card.Body className="relative overflow-hidden p-0 h-[13rem] shadow-lg">
               <img

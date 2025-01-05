@@ -121,11 +121,11 @@ export default function Herosection() {
                     <img
                       src={`${posterpath}${movie.backdrop_path}`}
                       alt={`image-${movie.title}`}
-                      className="h-[75vh] md:h-[32rem] lg:h-[35rem] w-full sm:0bject-center md:object-center lg:object-centerp"
+                      className="h-[75vh] md:h-[32rem] lg:h-[35rem] w-full sm:0bject-center md:object-center lg:object-center"
                       style={{ objectFit: "cover" }}
                     />
                     <div className="absolute inset-0 bottom-0 left-0 bg-gradient-to-t from-black via-transparent to-transparent">
-                      <div className="relative container mx-auto lg:px-2 sm:px-0 flex items-end p-1 justify-start h-full text-center text-white gap-5  bg-transparent ">
+                      <div className="relative container mx-auto lg:px-2 sm:px-0 flex items-end p-2 justify-start h-full text-center text-white gap-5  bg-transparent ">
                         <Card
                           onClick={() => selecthandler(movie)}
                           className="w-full max-w-[10rem] shadow-none bg-transparent border-none rounded-[2rem] p-1 sm:hidden lg:block md:block cursor-pointer  "
@@ -164,10 +164,13 @@ export default function Herosection() {
                             </Typography>
                           </div>
                           <div className="p-5">
-                            <Typography className="text-justify sm:text-sm md:text-base lg:text-lg  md:max-w-[20rem] lg:max-w-[35rem]">
+                            <Typography className="text-justify sm:text-sm md:text-base lg:text-lg  md:max-w-[20rem] lg:max-w-[35rem] break-words line-clamp-5">
                               {movie.overview}
                             </Typography>
                             <div className="flex items-center gap-2">
+                              <Chip isPill={false} variant="solid">
+                                <Chip.Label></Chip.Label>
+                              </Chip>
                               <Chip isPill={false} variant="solid">
                                 <Chip.Label></Chip.Label>
                               </Chip>

@@ -22,12 +22,12 @@ function App() {
         <div className="sticky top-0 left-0 w-full z-50 bg-white shadow-md p-2 bg-transparent">
           <Navigation />
         </div>
-        <main className="pb-8">
-          <section className="flex-grow pt-2 p-2">
+        <main className="w-full pb-8">
+          <section className="w-full flex-grow pt-2 p-2">
             <Home />
           </section>
         </main>
-        <footer className="mt-auto bg-white p-8">
+        <footer className="w-full mt-auto bg-white p-8">
           <Footer />
         </footer>
       </Suspense>
