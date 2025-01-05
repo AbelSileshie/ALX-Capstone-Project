@@ -68,7 +68,7 @@ const TrendingMoviesCard = () => {
 
   const [visibleMovies, setVisibleMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [moviesPerPage, setMoviesPerPage] = useState(2);
+  const [moviesPerPage, setMoviesPerPage] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {

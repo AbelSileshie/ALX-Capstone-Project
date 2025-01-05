@@ -21,27 +21,6 @@ const FeaturedToday = () => {
   const [moviesPerPage, setMoviesPerPage] = useState(null);
 
   useEffect(() => {
-    const fetchAndStoreMovies = async () => {
-      try {
-        const apiUrl = UpcomingMovies;
-        const movieData = await FetchMovies(apiUrl);
-
-        if (Array.isArray(movieData.results)) {
-          SetDummyMovies(movieData.results);
-        } else {
-          console.warn("Unexpected API response:", movieData);
-          SetDummyMovies([]);
-        }
-      } catch (error) {
-        console.error("Error in HeroSection fetch:", error);
-        SetDummyMovies([]);
-      }
-    };
-
-    fetchAndStoreMovies();
-  }, []);
-
-  useEffect(() => {
     const handleResize = () => {
       const screenWidth = window.innerWidth;
 
@@ -57,16 +36,24 @@ const FeaturedToday = () => {
     };
 
     const fetchTrending = async () => {
-      try {
-        // Simulate fetching movies from an API
-        const fetchedMovies = await new Promise((resolve) =>
-          setTimeout(() => resolve(dummyMovies), 1000)
-        );
+      const fetchAndStoreMovies = async () => {
+        try {
+          const apiUrl = UpcomingMovies;
+          const movieData = await FetchMovies(apiUrl);
 
-        setVisibleMovies(fetchedMovies.slice(0, moviesPerPage));
-      } catch (error) {
-        console.error("Error fetching movies:", error);
-      }
+          if (Array.isArray(movieData.results)) {
+            SetDummyMovies(movieData.results);
+          } else {
+            console.warn("Unexpected API response:", movieData);
+            SetDummyMovies([]);
+          }
+        } catch (error) {
+          console.error("Error in HeroSection fetch:", error);
+          SetDummyMovies([]);
+        }
+      };
+
+      fetchAndStoreMovies();
     };
 
     // Initialize moviesPerPage based on the current window width
