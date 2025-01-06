@@ -116,7 +116,6 @@ export default function Navigation() {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <Avatar className="ml-2" />
           {Authenticated ? (
             <IconButton
               className="ml-2"
