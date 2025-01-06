@@ -1,0 +1,31 @@
+{
+  "routes": [
+    {
+      "src": "/Login",
+      "dest": "/Login"
+    },
+    {
+      "src": "/Signup",
+      "dest": "/Signup"
+    },
+    {
+      "src": "/movie/:id",
+      "dest": "/movie/:id"
+    },
+    {
+      "src": "/Nointernet",
+      "dest": "/Nointernet"
+    },
+    {
+      "src": "/",
+      "dest": "/"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/Error404"
+    }
+  ],
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/:path*" }
+  ]
+}
