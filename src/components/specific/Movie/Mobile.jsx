@@ -159,7 +159,7 @@ const Mobile = ({ selectedmovie, Moviecast, Related }) => {
                     <div className="flex gap-4 mt-2"></div>
                   </div>
                   <div className=" w-full grid">
-                    <div className="w-full  p-4 bg-inherit rounded-lg shadow-lg mt-8">
+                    <div className="w-full  p-8 bg-inherit rounded-lg shadow-lg  mx-auto">
                       {/* Social Media Icons */}
                       <div className="flex justify-start items-center gap-4 mb-4">
                         <a href="#" className="text-black">
@@ -200,7 +200,6 @@ const Mobile = ({ selectedmovie, Moviecast, Related }) => {
                               <div>
                                 <img
                                   src={`${posterpath}${company.logo_path}`}
-                                  alt={company.name}
                                   className="object-contain rounded-full w-12 h-12"
                                 />
                               </div>

@@ -119,7 +119,7 @@ export default function Herosection() {
                     <img
                       src={`${posterpath}${movie.backdrop_path}`}
                       alt={`image-${movie.title}`}
-                      className="sm:h-[80vh] md:h-[32rem] lg:h-[33rem] w-full sm:0bject-center md:object-center  lg:object-top"
+                      className="sm:h-[95vh] md:h-[32rem] lg:h-[33rem] w-full sm:0bject-center md:object-center  lg:object-top"
                       style={{ objectFit: "cover" }}
                     />
                     <div className="absolute inset-0 bottom-0 left-0 bg-gradient-to-t from-black via-transparent to-transparent">
