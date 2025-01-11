@@ -6,27 +6,40 @@ import {
   Tooltip,
   Chip,
 } from "@material-tailwind/react";
-import { NavArrowLeft, NavArrowRight, StarSolid } from "iconoir-react";
+import {
+  ArrowRightCircleSolid,
+  NavArrowLeft,
+  NavArrowRight,
+  StarSolid,
+} from "iconoir-react";
 import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
+  BookmarkIcon,
+  BookmarkSlashIcon,
 } from "@heroicons/react/24/solid";
 import { posterpath, UpcomingMovies } from "../../../utils/APIPath";
 import { FetchMovies } from "../../../Services/Fetchmovies";
+import { getGenreNames } from "../../../utils/Utilties";
+import { useNavigate } from "react-router-dom";
+import { useMovieStore } from "../../../store/UseMovieStore";
+import { AuthStore } from "../../../store/UseAuthStore";
 
 const FeaturedToday = () => {
   const [dummyMovies, SetDummyMovies] = useState([]);
   const [visibleMovies, setVisibleMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [moviesPerPage, setMoviesPerPage] = useState(null);
+  const [moviesPerPage, setMoviesPerPage] = useState(3);
 
+  const { isMovieSaved, addMovie, removeMovie } = useMovieStore();
+  const navigate = useNavigate();
+
+  // Adjust movies per page on screen resize
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = window.innerWidth;
 
       if (screenWidth >= 1280) {
-        setMoviesPerPage(3);
-      } else if (screenWidth >= 1024) {
         setMoviesPerPage(3);
       } else if (screenWidth >= 768) {
         setMoviesPerPage(2);
@@ -36,40 +49,30 @@ const FeaturedToday = () => {
     };
 
     const fetchTrending = async () => {
-      const fetchAndStoreMovies = async () => {
-        try {
-          const apiUrl = UpcomingMovies;
-          const movieData = await FetchMovies(apiUrl);
+      try {
+        const apiUrl = UpcomingMovies;
+        const movieData = await FetchMovies(apiUrl);
 
-          if (Array.isArray(movieData.results)) {
-            SetDummyMovies(movieData.results);
-          } else {
-            console.warn("Unexpected API response:", movieData);
-            SetDummyMovies([]);
-          }
-        } catch (error) {
-          console.error("Error in HeroSection fetch:", error);
+        if (Array.isArray(movieData.results)) {
+          SetDummyMovies(movieData.results);
+        } else {
+          console.warn("Unexpected API response:", movieData);
           SetDummyMovies([]);
         }
-      };
-
-      fetchAndStoreMovies();
+      } catch (error) {
+        console.error("Error in fetching movies:", error);
+        SetDummyMovies([]);
+      }
     };
 
-    // Initialize moviesPerPage based on the current window width
     handleResize();
-
-    // Fetch and set movies after moviesPerPage is defined
     fetchTrending();
 
-    // Attach the resize listener
     window.addEventListener("resize", handleResize);
-
     return () => {
-      // Clean up the event listener
       window.removeEventListener("resize", handleResize);
     };
-  }, [moviesPerPage]);
+  }, []);
 
   useEffect(() => {
     const startIndex = currentPage * moviesPerPage;
@@ -78,10 +81,7 @@ const FeaturedToday = () => {
   }, [currentPage, moviesPerPage, dummyMovies]);
 
   const handleNext = () => {
-    if (
-      dummyMovies.length > 0 &&
-      (currentPage + 1) * moviesPerPage < dummyMovies.length
-    ) {
+    if ((currentPage + 1) * moviesPerPage < dummyMovies.length) {
       setCurrentPage((prev) => prev + 1);
     }
   };
@@ -92,6 +92,26 @@ const FeaturedToday = () => {
     }
   };
 
+  const selecthandler = (movieId) => {
+    navigate(`/movie/${movieId}`);
+  };
+
+  const handleSaveMovie = (movie) => {
+    const Toekn = AuthStore.getState().token;
+    if (!Toekn) {
+      navigate("/login");
+      console.log("Please login to save movie", Toekn);
+      addMovie();
+    } else {
+    }
+    addMovie(movie);
+    console.log("Movie saved:", movie);
+  };
+
+  const handleRemoveMovie = (movieId) => {
+    removeMovie(movieId);
+    console.log("Movie removed:", movieId);
+  };
   return (
     <div className="w-full md:mx-auto lg:mx-auto sm:mx-0">
       <div className="flex justify-start items-center p-4">
@@ -115,7 +135,7 @@ const FeaturedToday = () => {
           </IconButton>
         </div>
       </div>
-      <div className="container w-screen lg:mx-auto sm:mx-0 md:mx-auto ">
+      <div className=" lg:container w-screen lg:mx-auto sm:mx-auto md:mx-auto ">
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:w-[95vw] md:w-[90vw] sm:w-[90vw] justify-center items-center">
           {visibleMovies.map((movie) => (
             <Card
@@ -136,9 +156,9 @@ const FeaturedToday = () => {
                       <img
                         src={`${posterpath}${movie.poster_path}`}
                         alt={movie.title}
-                        className="w-[7rem] h-full object-cover object-center rounded-md mr-2"
+                        className="w-[7rem] h-full object-contain object-center rounded-md mr-2"
                       />
-                      <div className="grid items-center justify-start">
+                      <div className="grid items-center justify-start object-contain">
                         <div className="flex items-center mt-2">
                           <Typography
                             variant="h2"
@@ -149,20 +169,52 @@ const FeaturedToday = () => {
                           <StarSolid className="h-5 w-5 text-yellow-400 mr-1" />
                           <Typography>{movie.vote_average}</Typography>
                         </div>
-                        <Typography className="font-extralight text-justify w-22 p-1 break-words line-clamp-3">
+                        <Typography className="font-extralight text-justify w-22 p-1 break-words line-clamp-2">
                           {movie.overview}
                         </Typography>
-                        <div className="flex flex-co items-center gap-4">
-                          <Chip isPill={false} variant="solid">
-                            <Chip.Label>Action</Chip.Label>
-                          </Chip>
-                          <Chip isPill={false} variant="solid">
-                            <Chip.Label>Action</Chip.Label>
-                          </Chip>
+                        <div className="flex items-center gap-2">
+                          {getGenreNames(movie.genre_ids.slice(0, 3)).map(
+                            (genre, index) => (
+                              <Chip key={index} isPill={false} variant="solid">
+                                <Chip.Label>{genre}</Chip.Label>
+                              </Chip>
+                            )
+                          )}
                         </div>
-                        <div className="p-2 flex gap-4">
-                          <Typography>Save</Typography>
-                          <Typography>More Info</Typography>
+                        <div className="flex justify-start items-start gap-4 mt-2">
+                          <IconButton
+                            variant="outline"
+                            onClick={() =>
+                              isMovieSaved(movie.id)
+                                ? handleRemoveMovie(movie.id)
+                                : handleSaveMovie(movie)
+                            }
+                            className={`flex items-center gap-1 ${
+                              isMovieSaved(movie.id)
+                                ? "text-red-500"
+                                : "text-green-500"
+                            }`}
+                          >
+                            {isMovieSaved(movie.id) ? (
+                              <>
+                                <BookmarkSlashIcon className="h-5 w-5" />
+                                Remove
+                              </>
+                            ) : (
+                              <>
+                                <BookmarkIcon className="h-5 w-5" />
+                                Save
+                              </>
+                            )}
+                          </IconButton>
+                          <IconButton
+                            variant="outline"
+                            className="flex items-center gap-1 w-36 text-white p-2"
+                            onClick={() => selecthandler(movie.id)}
+                          >
+                            <Typography>View details</Typography>
+                            <ArrowRightCircleSolid />
+                          </IconButton>
                         </div>
                       </div>
                     </div>

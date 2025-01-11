@@ -22,38 +22,31 @@ import {
   MultiplePages,
   NavArrowDown,
   ProfileCircle,
-  Rocket,
   SelectFace3d,
-  Settings,
-  UserCircle,
   Xmark,
 } from "iconoir-react";
 import { AuthStore } from "../../store/UseAuthStore";
 import { useNavigate } from "react-router-dom";
 const LINKS = [
   {
-    icon: ProfileCircle,
-    title: "Account",
+    title: "Movie",
   },
   {
-    icon: SelectFace3d,
-    title: "Blocks",
+    title: "Series",
   },
   {
-    icon: Archive,
-    title: "Docs",
+    title: "Search",
   },
 ];
 
 function NavList() {
   return (
     <>
-      {LINKS.map(({ icon: Icon, title, href }) => (
-        <List.Item key={title} as="a" href={href}>
-          <List.ItemStart className="mr-1.5">
-            <Icon className="h-4 w-4" />
-          </List.ItemStart>
-          <Typography type="small">{title}</Typography>
+      {LINKS.map(({ title, href }) => (
+        <List.Item key={title}>
+          <Typography type="medium" className="text-white">
+            {title}
+          </Typography>
         </List.Item>
       ))}
     </>
@@ -66,7 +59,7 @@ const MenuItem = React.forwardRef(function MenuItem(
 ) {
   return (
     <Menu.Item ref={ref} {...rest} className="flex-col items-start">
-      <Typography color="default" className="font-semibold">
+      <Typography color="default" className="font-semibold text-white">
         {title}
       </Typography>
       <Typography type="small" className="text-foreground">
@@ -96,8 +89,9 @@ export default function Navigation() {
 
   return (
     <Navbar
-      className="mx-auto w-full border-none shadow-none bg-transparent"
+      className="mx-auto w-full border-none shadow-none bg-transparent text-white"
       fullWidth
+      color="black"
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center">
@@ -110,7 +104,7 @@ export default function Navigation() {
           </Typography>
           <hr className="mx-1 hidden h-5 w-px border-l border-t-0 border-secondary-dark lg:block" />
           <div className="hidden lg:block">
-            <List className="mt-4 flex flex-col gap-1 lg:mt-0 lg:flex-row lg:items-center">
+            <List className="mt-4 flex flex-col gap-1 lg:mt-0 lg:flex-row lg:items-center text-white">
               <NavList />
             </List>
           </div>
@@ -140,7 +134,12 @@ export default function Navigation() {
               </svg>
             </IconButton>
           ) : (
-            <Button onClick={() => Navigate("/Login")}>Login</Button>
+            <Button
+              className=" text-white bg-inherit border-none"
+              onClick={() => Navigate("/Login")}
+            >
+              Login
+            </Button>
           )}
           <IconButton
             size="sm"
@@ -150,43 +149,14 @@ export default function Navigation() {
             className="ml-auto mr-2 grid lg:hidden"
           >
             {openNav ? (
-              <Xmark className="h-4 w-4" />
+              <Xmark className="h-4 w-4 text-white" />
             ) : (
-              <MenuIcon className="h-4 w-4" />
+              <MenuIcon className="h-4 w-4 text-white" />
             )}
           </IconButton>
         </div>
       </div>
       <Collapse open={openNav}>
-        <Accordion>
-          <Accordion.Item value="react" className="mt-2 border-none">
-            <Accordion.Trigger className="p-0">
-              <List.Item className="w-full">
-                <List.ItemStart className="me-1.5">
-                  <MultiplePages className="h-4 w-4" />
-                </List.ItemStart>
-                <Typography type="small">Pages</Typography>
-                <List.ItemEnd className="ps-1">
-                  <NavArrowDown className="h-3.5 w-3.5 group-data-[open=true]:rotate-180" />
-                </List.ItemEnd>
-              </List.Item>
-            </Accordion.Trigger>
-            <Accordion.Content>
-              <MenuItem
-                title="@material-tailwind/html"
-                description="Learn how to use @material-tailwind/html, packed with rich components and widgets."
-              />
-              <MenuItem
-                title="@material-tailwind/react"
-                description="Learn how to use @material-tailwind/react, packed with rich components for React."
-              />
-              <MenuItem
-                title="Material Tailwind PRO"
-                description="A complete set of UI Elements for building faster websites in less time."
-              />
-            </Accordion.Content>
-          </Accordion.Item>
-        </Accordion>
         <NavList />
       </Collapse>
     </Navbar>

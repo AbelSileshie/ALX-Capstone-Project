@@ -8,32 +8,26 @@ import "swiper/css/pagination";
 
 import * as React from "react";
 
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
-import {
-  IconButton,
-  Typography,
-  Card,
-  Button,
-  Chip,
-  Spinner,
-} from "@material-tailwind/react";
+import { IconButton, Typography, Card, Chip } from "@material-tailwind/react";
 
 import {
   NavArrowRight,
   NavArrowLeft,
   StarSolid,
-  HeartSolid,
+  ArrowRightCircleSolid,
 } from "iconoir-react";
 
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
-import { BookmarkIcon } from "@heroicons/react/24/solid";
 import { FetchMovies } from "../../../Services/Fetchmovies";
 import { posterpath } from "../../../utils/APIPath";
 import Error500 from "../../error/Error500";
 import { DiscoverMovies } from "../../../utils/APIPath";
 import { Spiner } from "../../layout/Spiner";
 import { useNavigate } from "react-router-dom";
+import { getGenreNames } from "../../../utils/Utilties";
+import { BookmarkIcon } from "@heroicons/react/24/solid";
 function CustomNavigation() {
   const swiper = useSwiper();
 
@@ -72,6 +66,7 @@ export default function Herosection() {
   const [selectedMovie, setSelectedMovie] = React.useState([]);
   const [movies, setMovies] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [Genre, SetGenre] = React.useState([]);
   const Navigate = useNavigate();
   React.useEffect(() => {
     const fetchAndStoreMovies = async () => {
@@ -93,6 +88,7 @@ export default function Herosection() {
     setSelectedMovie(movie);
     Navigate(`/movie/${movie.id}`);
   };
+
   return (
     <div>
       {loading ? (
@@ -105,14 +101,16 @@ export default function Herosection() {
             <Swiper
               pagination={{
                 enabled: true,
-
                 clickable: true,
-
                 dynamicBullets: true,
-
                 renderBullet: customPagination,
               }}
-              modules={[Navigation, Pagination]}
+              modules={[Navigation, Pagination, Autoplay]}
+              autoplay={{
+                delay: 10000,
+                disableOnInteraction: false,
+              }}
+              loop={true}
               className="relative rounded-lg [&_div.swiper-button-next]:text-background [&_div.swiper-button-prev]:text-background"
             >
               {Array.isArray(movies) &&
@@ -121,7 +119,7 @@ export default function Herosection() {
                     <img
                       src={`${posterpath}${movie.backdrop_path}`}
                       alt={`image-${movie.title}`}
-                      className="h-[75vh] md:h-[32rem] lg:h-[35rem] w-full sm:0bject-center md:object-center  lg:object-top"
+                      className="h-[75vh] md:h-[32rem] lg:h-[33rem] w-full sm:0bject-center md:object-center  lg:object-top"
                       style={{ objectFit: "cover" }}
                     />
                     <div className="absolute inset-0 bottom-0 left-0 bg-gradient-to-t from-black via-transparent to-transparent">
@@ -168,12 +166,37 @@ export default function Herosection() {
                               {movie.overview}
                             </Typography>
                             <div className="flex items-center gap-2">
-                              <Chip isPill={false} variant="solid">
-                                <Chip.Label></Chip.Label>
-                              </Chip>
-                              <Chip isPill={false} variant="solid">
-                                <Chip.Label></Chip.Label>
-                              </Chip>
+                              {getGenreNames(movie.genre_ids.slice(0, 3)).map(
+                                (genre, index) => (
+                                  <Chip
+                                    key={index}
+                                    isPill={false}
+                                    variant="solid"
+                                  >
+                                    <Chip.Label>{genre}</Chip.Label>
+                                  </Chip>
+                                )
+                              )}
+                            </div>
+                            <div className="flex justify-start items-start gap-4 mt-2">
+                              <IconButton
+                                variant="outline"
+                                className="flex items-center gap-1 w- text-white p-2"
+                              >
+                                <Typography>Watchlist</Typography>
+                                <BookmarkIcon
+                                  className="h-5 w-5"
+                                  color="white"
+                                />
+                              </IconButton>
+                              <IconButton
+                                variant="outline"
+                                className="flex items-center gap-1 w-36 text-white p-2"
+                                onClick={() => selecthandler(movie)}
+                              >
+                                <Typography>View details</Typography>
+                                <ArrowRightCircleSolid />
+                              </IconButton>
                             </div>
                           </div>
                         </div>
@@ -181,7 +204,6 @@ export default function Herosection() {
                     </div>
                   </SwiperSlide>
                 ))}
-
               <CustomNavigation />
             </Swiper>
           </div>

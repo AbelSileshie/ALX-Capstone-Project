@@ -25,6 +25,8 @@ export default function Login() {
   const [loading, setLoading] = React.useState(false);
   const setLogin = AuthStore((state) => state.setLogin);
   const setToken = (newToken) => AuthStore.setState({ token: newToken });
+  const setRefreshToken = (newToken) =>
+    AuthStore.setState({ refresh_token: newToken });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,10 +38,16 @@ export default function Login() {
     loginUser(email, password)
       .then((data) => {
         setLoading(true);
-        console.log("Access token:", data.access_token);
+        console.log(
+          "Access token:",
+          data.access_token,
+          "refresh token",
+          data.refresh_token
+        );
         console.log("User:", data);
         setLogin(data);
         setToken(data.access_token);
+        setRefreshToken(data.refresh_token);
       })
       .then(() => {
         Navigate("/");

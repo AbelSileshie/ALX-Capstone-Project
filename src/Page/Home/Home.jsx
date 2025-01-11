@@ -12,15 +12,15 @@ const Home = () => {
   const background = useBackgroundStore((state) => state.background);
 
   return (
-    <div className="w-full flex flex-col mt-0 rounded-lg  mx-auto shadow-none">
+    <div className="w-full flex flex-col mt-0 rounded-lg  mx-auto shadow-none h-full bg-black">
       <div className="w-full">
-        <section className="w-[98vw] h-auto mx-auto">
+        <section className="w-[98vw] h-[90vh] mx-auto">
           <Suspense fallback={<Spiner />}>
             <Heroscetion />
           </Suspense>
         </section>
 
-        <section className="">
+        <section className=" bg-black">
           <Suspense fallback={<Spiner />}>
             <FeaturedToday />
           </Suspense>
@@ -34,18 +34,9 @@ const Home = () => {
         </section>
 
         {/* Theatre Section */}
-        <section
-          className="bg-cover bg-center bg-no-repeat bg-gradient-to-tl from-black/30 via-transparent to-black/90 text-white"
-          style={{ backgroundImage: `url(${background})` }}
-        >
-          <div className="w-full h-auto p-8 overflow-y-auto">
-            <Suspense fallback={<Spiner />}>
-              <Theatre />
-            </Suspense>
-          </div>
+        <section className="w-full bg-gradient-to-b from-black via-transparent to-transparent ">
+          <Theatre />
         </section>
-
-        {/* Top IMDB Section */}
         <section className="">
           <Suspense fallback={<Spiner />}>
             <TopIMDB />

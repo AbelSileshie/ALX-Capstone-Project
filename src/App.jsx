@@ -11,23 +11,25 @@ const Home = lazy(() => import("./Page/Home/Home"));
 
 function App() {
   const savedData = AuthStore((state) => state.user);
-  const savedToken = AuthStore.getState().token;
-  const data = AuthStore((state) => state.data);
-  console.log("saved Data", savedData);
-  console.log("saved Token", savedToken);
+  const Token = AuthStore.getState().token;
+  const user_id = AuthStore.getState().user_id;
+  console.log("saved Data", savedData?.id);
+  console.log("saved Token", savedData?.id);
+  console.log("saved user_id", user_id);
+  // console.log("Data", data.user.id);
 
   return (
     <>
       <Suspense fallback={<Spiner />}>
-        <div className="sticky top-0 left-0 w-full z-50 bg-white shadow-md p-2 bg-transparent">
+        <div className="sticky top-0 left-0 w-full z-50  shadow-md p-2 bg-black">
           <Navigation />
         </div>
-        <main className="w-full pb-8">
+        <main className="w-full pb-8 bg-black color-white">
           <section className="w-full flex-grow pt-2 p-2">
             <Home />
           </section>
         </main>
-        <footer className="w-full mt-auto bg-white p-8">
+        <footer className="w-full mt-auto p-8 bg-black/90">
           <Footer />
         </footer>
       </Suspense>

@@ -1,17 +1,9 @@
 import React, { Suspense, useState } from "react";
 import { useEffect } from "react";
-import {
-  MovieCastPath,
-  Moviedetailpath,
-  RelatedMovie,
-} from "../../utils/APIPath";
-import { Spiner } from "../../components/layout/Spiner";
 import { useNavigate, useParams } from "react-router-dom";
-import Navigation from "../../components/layout/Navigation";
-import { posterpath } from "../../utils/APIPath";
-import { FetchMovies } from "../../Services/Fetchmovies";
+import { posterpath, RelatedSeries } from "../../../utils/APIPath";
+import { FetchMovies } from "../../../Services/Fetchmovies";
 import { Typography, IconButton } from "@material-tailwind/react";
-import Footer from "../../components/layout/Footer";
 import {
   BookmarkIcon,
   BookmarkSlashIcon,
@@ -19,17 +11,20 @@ import {
   ShareIcon,
 } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
-import {
-  formatDate,
-  movietime,
-  formatMoney,
-  useWindowSize,
-} from "../../utils/Utilties";
-import Mobile from "../../components/specific/Movie/Mobile";
+import { formatDate, useWindowSize } from "../../../utils/Utilties";
+import MobileSeries from "./MobileSeries";
 import { FacebookTag, Instagram, Movie, Twitter } from "iconoir-react";
-import { useMovieStore } from "../../store/UseMovieStore";
-import { AuthStore } from "../../store/UseAuthStore";
-const Moviedetail = () => {
+import { useMovieStore } from "../../../store/UseMovieStore";
+import { AuthStore } from "../../../store/UseAuthStore";
+import {
+  SeriesDetail,
+  MovieCastPath,
+  RelatedMovie,
+} from "../../../utils/APIPath";
+import { Spiner } from "../../layout/Spiner";
+import Navigation from "../../layout/Navigation";
+import Footer from "../../layout/Footer";
+const Series = () => {
   const { id } = useParams();
   const [selectedmovie, setSelectedMovie] = useState(null);
   const [Moviecast, setMovieCast] = useState([]);
@@ -38,7 +33,7 @@ const Moviedetail = () => {
     const fetchMovieDetail = async () => {
       try {
         if (!id) return;
-        const apiUrl = Moviedetailpath(id);
+        const apiUrl = SeriesDetail(id);
         const movieDetails = await FetchMovies(apiUrl);
         setSelectedMovie(movieDetails);
         console.log("Movie details:", movieDetails);
@@ -46,7 +41,7 @@ const Moviedetail = () => {
         const castApiUrl = MovieCastPath(id);
         const castDetails = await FetchMovies(castApiUrl);
         setMovieCast(castDetails.cast || []);
-        const relatedApiUrl = RelatedMovie(id);
+        const relatedApiUrl = RelatedSeries(id);
         const Relatedmoviefetch = await FetchMovies(relatedApiUrl);
         setRelated(Relatedmoviefetch.results || []);
         console.log("related movies", Related);
@@ -66,7 +61,7 @@ const Moviedetail = () => {
   const navigate = useNavigate();
 
   const selectHandler = (movieId) => {
-    navigate(`/movie/${movieId}`);
+    navigate(`/series/${movieId}`);
     console.log("navigation Activated,", movieId);
   };
   const { isMovieSaved, addMovie, removeMovie } = useMovieStore();
@@ -103,8 +98,12 @@ const Moviedetail = () => {
                       <div className="relative rounded-lg overflow-hidden shadow-lg max-w-full mx-auto">
                         <div className="w-full aspect-w-16 aspect-h-9">
                           <img
-                            src={`${posterpath}${selectedmovie.backdrop_path}`}
-                            alt={selectedmovie.title}
+                            src={
+                              selectedmovie.backdrop_path
+                                ? `${posterpath}${selectedmovie.backdrop_path}`
+                                : `${posterpath}${selectedmovie.poster_path}`
+                            }
+                            alt={selectedmovie.name}
                             className="object-cover object-center w-full h-[90vh]"
                           />
                         </div>
@@ -115,7 +114,7 @@ const Moviedetail = () => {
                             <div className=" w-full">
                               <h2 className="text-4xl font-extrabold mb-1">
                                 <Typography type="h3">
-                                  {selectedmovie.title}
+                                  {selectedmovie.name}
                                 </Typography>
                               </h2>
                               <p className="flex space-x-2 mb-4">
@@ -173,11 +172,11 @@ const Moviedetail = () => {
                             <div class="bg-gray-800 rounded-3xl flex items-center backdrop-blur-md bg-inherit bg-opacity-55">
                               <div class="-rotate-90 items-start justify-start ">
                                 <div />
-                                <h3 class="text-gray-400 text-xl">RELEASE</h3>
+                                <h3 class="text-gray-400 text-xl">Aired</h3>
                               </div>
                               <div className="items-center justify-center">
                                 <p class="text-2xl font-bold">
-                                  {formatDate(selectedmovie.release_date)}
+                                  {formatDate(selectedmovie.first_air_date)}
                                 </p>
                               </div>
                             </div>
@@ -187,27 +186,31 @@ const Moviedetail = () => {
                               </div>
                               <div className="items-center justify-center p-8">
                                 <p class="text-2xl font-bold">
-                                  {selectedmovie.adult || "PG-13"}
+                                  {selectedmovie.vote_average.toFixed(1)}
                                 </p>
                               </div>
                             </div>
                             <div class="bg-gray-800 rounded-3xl flex items-center backdrop-blur-md bg-inherit bg-opacity-30">
                               <div class="-rotate-90 items-start justify-start ">
-                                <h3 class="text-gray-400 text-xl">BUDGET</h3>
+                                <h3 class="text-gray-400 text-xl">STATUS</h3>
                               </div>
                               <div className="items-center justify-center p-8">
                                 <p class="text-2xl font-bold">
-                                  ${formatMoney(selectedmovie.budget)}
+                                  <p className="text-2xl font-bold">
+                                    {selectedmovie.in_production
+                                      ? "Airing"
+                                      : "Completed"}
+                                  </p>
                                 </p>
                               </div>
                             </div>
                             <div class="bg-gray-800 rounded-3xl flex items-center backdrop-blur-md bg-inherit bg-opacity-30">
                               <div class="-rotate-90 items-start justify-start ">
-                                <h3 class="text-gray-400 text-xl">LENGTH</h3>
+                                <h3 class="text-gray-400 text-xl">SEASONS</h3>
                               </div>
                               <div className="items-center justify-center p-8">
                                 <p class="text-2xl font-bold">
-                                  {movietime(selectedmovie.runtime)}
+                                  {selectedmovie.number_of_seasons}
                                 </p>
                               </div>
                             </div>
@@ -285,7 +288,7 @@ const Moviedetail = () => {
                                   Original Name
                                 </span>
                                 <span className="text-black">
-                                  {selectedmovie.title}
+                                  {selectedmovie.name}
                                 </span>
                               </div>
                               <div className="flex flex-col">
@@ -295,6 +298,32 @@ const Moviedetail = () => {
                                 <span className="text-black">
                                   {selectedmovie.status}
                                 </span>
+                              </div>
+                              <div className="grid">
+                                <span className="font-semibold text-gray-700">
+                                  Networks
+                                </span>
+                                {selectedmovie.networks.map((company) => (
+                                  <>
+                                    <div className="flex items-center">
+                                      <div>
+                                        <img
+                                          src={`${posterpath}${company.logo_path}`}
+                                          alt={company.name}
+                                          className="object-contain rounded-full w-24 h-24"
+                                        />
+                                      </div>
+                                      <div className=" p-4">
+                                        <span
+                                          key={company.id}
+                                          className="block"
+                                        >
+                                          {company.name}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </>
+                                ))}
                               </div>
                               <div className="flex flex-col">
                                 <span className="font-semibold text-gray-700">
@@ -308,7 +337,7 @@ const Moviedetail = () => {
                                           <img
                                             src={`${posterpath}${company.logo_path}`}
                                             alt={company.name}
-                                            className="object-contain rounded-full w-12 h-12"
+                                            className="object-contain rounded-full w-24 h-24"
                                           />
                                         </div>
                                         <div className=" p-4">
@@ -360,7 +389,7 @@ const Moviedetail = () => {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Mobile
+            <MobileSeries
               selectedmovie={selectedmovie}
               Moviecast={Moviecast}
               Related={Related}
@@ -374,4 +403,4 @@ const Moviedetail = () => {
   );
 };
 
-export default Moviedetail;
+export default Series;
