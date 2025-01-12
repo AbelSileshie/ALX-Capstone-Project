@@ -37,7 +37,7 @@ const Home = () => {
         <section className=" bg-gradient-to-b from-black via-transparent to-transparent ">
           <Theatre />
         </section>
-        <section className="sm:p-8">
+        <section className="">
           <Suspense fallback={<Spiner />}>
             <TopIMDB />
           </Suspense>

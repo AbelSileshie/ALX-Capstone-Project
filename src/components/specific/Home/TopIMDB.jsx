@@ -4,6 +4,7 @@ import { NavArrowLeft, NavArrowRight, StarSolid } from "iconoir-react";
 import { FetchMovies } from "../../../Services/Fetchmovies";
 import { PopularSeries } from "../../../utils/APIPath";
 import { posterpath } from "../../../utils/APIPath";
+import Rating from "../../common/Rating";
 
 const TopIMDB = () => {
   const [visibleMovies, setVisibleMovies] = useState([]);
@@ -100,24 +101,21 @@ const TopIMDB = () => {
           </IconButton>
         </div>
       </div>
-      <div className="grid gap-5 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-5 w-[21rem] md:w-full lg:w-full mx-1">
+      <div className="grid gap-5 sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-5 w-[21rem] md:w-full lg:w-full mx-auto p-2">
         {visibleMovies.map((movie) => (
           <Card
             key={movie.id}
             className="max-w-full w-auto md:w-[90vw] mx-auto shadow-none bg-transparent border-none"
           >
             <Card.Body className="relative overflow-hidden p-0 h-[13rem] shadow-lg">
+              <div className=" absolute flex items-center justify-end sm:mx-24 lg:mx-36 w-12 h-12">
+                <Rating rating={movie.vote_average} />
+              </div>
               <img
                 src={`${posterpath}${movie.poster_path}`}
                 alt={movie.title}
                 className="w-[10rem] h-full object-contain object-top rounded-md mx-auto"
               />
-              <div className=" absolute inset-0 bg-black/30 flex items-start justify-start mx-12 p-2 w-16 h-12">
-                <Typography className="flex items-center gap-1.5">
-                  <StarSolid className="h-5 w-5 text-yellow-500" />
-                  {movie.vote_average.toFixed(1)}
-                </Typography>
-              </div>
             </Card.Body>
             <Card.Footer className="flex justify-between items-center w-full mx-auto">
               <div className="  text-white flex items-end p-3 mx-auto">
