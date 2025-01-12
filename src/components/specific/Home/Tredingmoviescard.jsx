@@ -2,9 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Card, Typography, IconButton, Button } from "@material-tailwind/react";
 import { NavArrowLeft, NavArrowRight, StarSolid } from "iconoir-react";
 import { FetchMovies } from "../../../Services/Fetchmovies";
-import { PopularSeries, TopRatedMovies } from "../../../utils/APIPath";
+import {
+  DayTrendingMovies,
+  TopRatedMovies,
+  WeekTrendingMovies,
+} from "../../../utils/APIPath";
 import { posterpath } from "../../../utils/APIPath";
 import Rating from "../../common/Rating";
+import { useNavigate } from "react-router-dom";
 const TrendingMoviesCard = () => {
   const [visibleMovies, setVisibleMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -73,11 +78,17 @@ const TrendingMoviesCard = () => {
     }
   };
   const selecthandler = (text) => {
-    if (text === "react") {
-      setSelect(PopularSeries);
-    } else if (text === "html") {
-      setSelect(TopRatedMovies);
+    if (text === "Day") {
+      setSelect(DayTrendingMovies);
+    } else if (text === "Week") {
+      setSelect(WeekTrendingMovies);
     }
+  };
+  const [selectedMovie, setSelectedMovie] = React.useState([]);
+  const Navigate = useNavigate();
+  const selecthandler2 = (movie) => {
+    setSelectedMovie(movie);
+    Navigate(`/movie/${movie.id}`);
   };
   return (
     <div className="w-full">
@@ -91,16 +102,16 @@ const TrendingMoviesCard = () => {
           </Typography>
           <div className=" justify-start items-start m-2 ml-5 flex gap-2">
             <Button
-              variant={select === PopularSeries ? "solid" : "outline"}
-              onClick={() => selecthandler("react")}
+              variant={select === DayTrendingMovies ? "solid" : "outline"}
+              onClick={() => selecthandler("Day")}
             >
-              Movies
+              Day
             </Button>
             <Button
-              variant={select === TopRatedMovies ? "solid" : "outline"}
-              onClick={() => selecthandler("html")}
+              variant={select === WeekTrendingMovies ? "solid" : "outline"}
+              onClick={() => selecthandler("Week")}
             >
-              Series
+              Week
             </Button>
           </div>
         </div>
@@ -134,7 +145,8 @@ const TrendingMoviesCard = () => {
               <img
                 src={`${posterpath}${movie.poster_path}`}
                 alt={movie.title}
-                className="w-[10rem] h-full object-contain object-top rounded-md mx-auto"
+                onClick={() => selecthandler2(movie)}
+                className="w-[10rem] h-full object-contain object-top rounded-md mx-auto cursor-pointer"
               />
             </Card.Body>
             <Card.Footer className="flex justify-between items-center w-full mx-auto">

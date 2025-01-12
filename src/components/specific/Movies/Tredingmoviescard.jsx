@@ -2,10 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Card, Typography, IconButton, Button } from "@material-tailwind/react";
 import { NavArrowLeft, NavArrowRight, StarSolid } from "iconoir-react";
 import { FetchMovies } from "../../../Services/Fetchmovies";
-import { PopularSeries, TopRatedMovies } from "../../../utils/APIPath";
+import {
+  DayTrendingMovies,
+  TopRatedMovies,
+  WeekTrendingMovies,
+} from "../../../utils/APIPath";
 import { posterpath } from "../../../utils/APIPath";
 import Rating from "../../common/Rating";
-const TrendingMoviesCard = () => {
+const TrendingMovies = () => {
   const [visibleMovies, setVisibleMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [moviesPerPage, setMoviesPerPage] = useState(null);
@@ -73,10 +77,10 @@ const TrendingMoviesCard = () => {
     }
   };
   const selecthandler = (text) => {
-    if (text === "react") {
-      setSelect(PopularSeries);
-    } else if (text === "html") {
-      setSelect(TopRatedMovies);
+    if (text === "Day") {
+      setSelect(DayTrendingMovies);
+    } else if (text === "Week") {
+      setSelect(WeekTrendingMovies);
     }
   };
   return (
@@ -91,16 +95,16 @@ const TrendingMoviesCard = () => {
           </Typography>
           <div className=" justify-start items-start m-2 ml-5 flex gap-2">
             <Button
-              variant={select === PopularSeries ? "solid" : "outline"}
-              onClick={() => selecthandler("react")}
+              variant={select === DayTrendingMovies ? "solid" : "outline"}
+              onClick={() => selecthandler("Day")}
             >
-              React Version
+              Day
             </Button>
             <Button
-              variant={select === TopRatedMovies ? "solid" : "outline"}
-              onClick={() => selecthandler("html")}
+              variant={select === WeekTrendingMovies ? "solid" : "outline"}
+              onClick={() => selecthandler("Week")}
             >
-              HTML Version
+              Week
             </Button>
           </div>
         </div>
@@ -156,4 +160,4 @@ const TrendingMoviesCard = () => {
   );
 };
 
-export default TrendingMoviesCard;
+export default TrendingMovies;

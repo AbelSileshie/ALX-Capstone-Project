@@ -57,7 +57,7 @@ export default function Authentication4() {
                     htmlFor="password"
                     type="small"
                     color="default"
-                    className="font-semibold"
+                    className="font-semibold color-white"
                   >
                     Password
                   </Typography>

@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Card, Typography, IconButton } from "@material-tailwind/react";
 import { NavArrowLeft, NavArrowRight, StarSolid } from "iconoir-react";
 import { FetchMovies } from "../../../Services/Fetchmovies";
-import { PopularSeries } from "../../../utils/APIPath";
+import { DiscoverMovies, PopularSeries } from "../../../utils/APIPath";
 import { posterpath } from "../../../utils/APIPath";
 import Rating from "../../common/Rating";
+import { useNavigate } from "react-router-dom";
 
-const TopIMDB = () => {
+const Discover = () => {
   const [visibleMovies, setVisibleMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [moviesPerPage, setMoviesPerPage] = useState(null);
@@ -34,7 +35,7 @@ const TopIMDB = () => {
 
     const fetchMovies = async () => {
       try {
-        const popular = PopularSeries;
+        const popular = DiscoverMovies;
         const fetchedMovies = await FetchMovies(popular);
         setMovies(fetchedMovies.results);
         console.log(fetchedMovies.results);
@@ -71,6 +72,12 @@ const TopIMDB = () => {
     if (currentPage > 0) {
       setCurrentPage((prev) => prev - 1);
     }
+  };
+  const [selectedMovie, setSelectedMovie] = React.useState([]);
+  const Navigate = useNavigate();
+  const selecthandler = (movie) => {
+    setSelectedMovie(movie);
+    Navigate(`/movie/${movie.id}`);
   };
 
   return (
@@ -114,7 +121,8 @@ const TopIMDB = () => {
               <img
                 src={`${posterpath}${movie.poster_path}`}
                 alt={movie.title}
-                className="w-[10rem] h-full object-contain object-top rounded-md mx-auto"
+                onClick={() => selecthandler(movie)}
+                className="w-[10rem] h-full object-contain object-top rounded-md mx-auto cursor-pointer"
               />
             </Card.Body>
             <Card.Footer className="flex justify-between items-center w-full mx-auto">
@@ -136,4 +144,4 @@ const TopIMDB = () => {
   );
 };
 
-export default TopIMDB;
+export default Discover;

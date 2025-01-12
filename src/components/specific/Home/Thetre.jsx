@@ -26,6 +26,7 @@ import {
   LatestSeries,
   posterpath,
   TopRatedSeries,
+  UpcomingMovies,
 } from "../../../utils/APIPath";
 import Error500 from "../../error/Error500";
 import { Spiner } from "../../layout/Spiner";
@@ -68,7 +69,7 @@ function customPagination(_, className) {
   return `<span class="${className} w-4 h-4 [&.swiper-pagination-bullet-active]:!opacity-100 [&.swiper-pagination-bullet-active]:[background:rgb(var(--color-background))] !opacity-50 ![background:rgb(var(--color-background))]"></span>`;
 }
 
-export default function Thetre() {
+export default function Upcoming() {
   const [selectedMovie, setSelectedMovie] = React.useState([]);
   const [movies, setMovies] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
@@ -79,7 +80,7 @@ export default function Thetre() {
   React.useEffect(() => {
     const fetchAndStoreMovies = async () => {
       try {
-        const movieData = await FetchMovies(TopRatedSeries);
+        const movieData = await FetchMovies(UpcomingMovies);
         setMovies(movieData.results);
         console.log("Movies", movieData);
       } catch (error) {

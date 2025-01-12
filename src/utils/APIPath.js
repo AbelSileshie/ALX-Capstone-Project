@@ -10,7 +10,7 @@ export const DiscoverMovies = `${
 export const posterpath = `https://image.tmdb.org/t/p/original/`;
 export const UpcomingMovies = `${
   import.meta.env.VITE_TMDB_API_URL
-}/movie/upcoming?language=en-US&page=1`;
+}//movie/top_rated?language=en-US&page=1`;
 export const NowPlayingMovies = `${
   import.meta.env.VITE_TMDB_API_URL
 }/movie/now_playing?language=en-US&page=1`;
@@ -66,3 +66,7 @@ export const SearchSeries = (query) => {
     import.meta.env.VITE_TMDB_API_KEY
   }&query=${query}`;
 };
+export const DayTrendingMovies = (type) =>
+  `${import.meta.env.VITE_TMDB_API_URL}/trending/movie/day`;
+export const WeekTrendingMovies = (type) =>
+  `${import.meta.env.VITE_TMDB_API_URL}/trending/movie/week`;

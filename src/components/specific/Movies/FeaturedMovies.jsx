@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Card,
-  Typography,
-  IconButton,
-  Tooltip,
-  Chip,
-} from "@material-tailwind/react";
+import { Card, Typography, IconButton, Chip } from "@material-tailwind/react";
 import {
   ArrowRightCircleSolid,
   NavArrowLeft,
@@ -13,21 +7,18 @@ import {
   StarSolid,
 } from "iconoir-react";
 import {
-  ArrowLeftCircleIcon,
-  ArrowRightCircleIcon,
-  ArrowRightIcon,
   BookmarkIcon,
   BookmarkSlashIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/solid";
-import { posterpath, UpcomingMovies } from "../../../utils/APIPath";
+import { NowPlayingMovies, posterpath } from "../../../utils/APIPath";
 import { FetchMovies } from "../../../Services/Fetchmovies";
 import { getGenreNames } from "../../../utils/Utilties";
 import { useNavigate } from "react-router-dom";
 import { useMovieStore } from "../../../store/UseMovieStore";
 import { AuthStore } from "../../../store/UseAuthStore";
 
-const FeaturedToday = () => {
+const FeaturedMovies = () => {
   const [dummyMovies, SetDummyMovies] = useState([]);
   const [visibleMovies, setVisibleMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -52,7 +43,7 @@ const FeaturedToday = () => {
 
     const fetchTrending = async () => {
       try {
-        const apiUrl = UpcomingMovies;
+        const apiUrl = NowPlayingMovies;
         const movieData = await FetchMovies(apiUrl);
 
         if (Array.isArray(movieData.results)) {
@@ -246,4 +237,4 @@ const FeaturedToday = () => {
   );
 };
 
-export default FeaturedToday;
+export default FeaturedMovies;

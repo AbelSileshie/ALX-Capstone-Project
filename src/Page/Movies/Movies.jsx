@@ -1,12 +1,9 @@
 import React, { Suspense, useState } from "react";
-import Heroscetion from "../../components/specific/Home/Herosection";
-import FeaturedToday from "../../components/specific/Home/FeaturedToday";
 import TopIMDB from "../../components/specific/Home/TopIMDB";
 import TrendingMoviesCard from "../../components/specific/Home/Tredingmoviescard";
 import Theatre from "../../components/specific/Home/Thetre";
 import { Card, Typography } from "@material-tailwind/react";
 import { useBackgroundStore } from "../../store/BackgroundStore";
-import Celebrties from "../../components/specific/Home/Celebrties";
 import Navigation from "../../components/layout/Navigation";
 import Footer from "../../components/layout/Footer";
 import { SearchMovie } from "../../utils/APIPath";
@@ -14,6 +11,10 @@ import { FetchMovies } from "../../Services/Fetchmovies";
 import { posterpath } from "../../utils/APIPath";
 import Rating from "../../components/common/Rating";
 import { useNavigate } from "react-router-dom";
+import FeaturedMovies from "../../components/specific/Movies/FeaturedMovies";
+import TrendingMovies from "../../components/specific/Movies/Tredingmoviescard";
+import Upcoming from "../../components/specific/Home/Thetre";
+import Discover from "../../components/specific/Home/TopIMDB";
 const Spiner = React.lazy(() => import("../../components/layout/Spiner"));
 
 const Movies = () => {
@@ -134,25 +135,21 @@ const Movies = () => {
                 <>
                   <section className="bg-black">
                     <Suspense fallback={<Spiner />}>
-                      <FeaturedToday />
+                      <FeaturedMovies />
                     </Suspense>
                   </section>
                   <section className="">
                     <Suspense fallback={<Spiner />}>
-                      <TrendingMoviesCard />
+                      <TrendingMovies />
                     </Suspense>
                   </section>
-                  <section className="">
-                    <Suspense fallback={<Spiner />}>
-                      <Celebrties />
-                    </Suspense>
-                  </section>
+
                   <section className="bg-gradient-to-b from-black via-transparent to-transparent">
-                    <Theatre />
+                    <Upcoming />
                   </section>
                   <section className="">
                     <Suspense fallback={<Spiner />}>
-                      <TopIMDB />
+                      <Discover />
                     </Suspense>
                   </section>
                 </>

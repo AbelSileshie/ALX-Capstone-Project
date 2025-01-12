@@ -143,11 +143,6 @@ const Series = () => {
                       <TrendingMoviesCard />
                     </Suspense>
                   </section>
-                  <section className="">
-                    <Suspense fallback={<Spiner />}>
-                      <Celebrties />
-                    </Suspense>
-                  </section>
                   <section className="bg-gradient-to-b from-black via-transparent to-transparent">
                     <Theatre />
                   </section>
