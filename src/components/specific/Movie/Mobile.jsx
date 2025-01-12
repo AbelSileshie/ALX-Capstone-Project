@@ -3,7 +3,7 @@ import Navigation from "../../layout/Navigation";
 import Error404 from "../../error/Error404";
 import Footer from "../../layout/Footer"; // Ensure Footer is imported
 import { Spiner } from "../../layout/Spiner";
-import { IconButton, Typography } from "@material-tailwind/react";
+import { Card, IconButton, Typography } from "@material-tailwind/react";
 import { posterpath } from "../../../utils/APIPath";
 import { useNavigate } from "react-router-dom";
 import {
@@ -21,7 +21,7 @@ import { useMovieStore } from "../../../store/UseMovieStore";
 import { AuthStore } from "../../../store/UseAuthStore";
 import { FacebookTag, Instagram, Twitter } from "iconoir-react";
 
-const Mobile = ({ selectedmovie, Moviecast, Related }) => {
+const Mobile = ({ selectedmovie, Moviecast, Related, trailer }) => {
   const { isMovieSaved, addMovie, removeMovie } = useMovieStore();
 
   const handleSaveMovie = (selectedmovie) => {
@@ -231,6 +231,28 @@ const Mobile = ({ selectedmovie, Moviecast, Related }) => {
                         </span>
                         <span className="text-black">
                           {selectedmovie.original_language}
+                        </span>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-gray-700">
+                          Trailers
+                        </span>
+                        <span className="text-black">
+                          <Card>
+                            <Card.Body>
+                              {trailer.slice(0, 1).map((video) => (
+                                <iframe
+                                  width="100%"
+                                  height="315"
+                                  src={`https://www.youtube.com/embed/${video.key}`}
+                                  title={video.name}
+                                  frameBorder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                ></iframe>
+                              ))}
+                            </Card.Body>
+                          </Card>
                         </span>
                       </div>
                     </div>

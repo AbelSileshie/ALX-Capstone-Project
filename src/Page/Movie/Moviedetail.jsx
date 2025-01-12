@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import {
   MovieCastPath,
   Moviedetailpath,
+  MovieTrailer,
   RelatedMovie,
 } from "../../utils/APIPath";
 import { Spiner } from "../../components/layout/Spiner";
@@ -10,7 +11,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import Navigation from "../../components/layout/Navigation";
 import { posterpath } from "../../utils/APIPath";
 import { FetchMovies } from "../../Services/Fetchmovies";
-import { Typography, IconButton } from "@material-tailwind/react";
+import {
+  Typography,
+  IconButton,
+  Dialog,
+  Button,
+  Card,
+} from "@material-tailwind/react";
 import Footer from "../../components/layout/Footer";
 import {
   BookmarkIcon,
@@ -26,7 +33,7 @@ import {
   useWindowSize,
 } from "../../utils/Utilties";
 import Mobile from "../../components/specific/Movie/Mobile";
-import { FacebookTag, Instagram, Movie, Twitter } from "iconoir-react";
+import { FacebookTag, Instagram, Movie, Twitter, Xmark } from "iconoir-react";
 import { useMovieStore } from "../../store/UseMovieStore";
 import { AuthStore } from "../../store/UseAuthStore";
 const Moviedetail = () => {
@@ -34,6 +41,7 @@ const Moviedetail = () => {
   const [selectedmovie, setSelectedMovie] = useState(null);
   const [Moviecast, setMovieCast] = useState([]);
   const [Related, setRelated] = useState([]);
+  const [trailer, Settrailer] = useState([]);
   useEffect(() => {
     const fetchMovieDetail = async () => {
       try {
@@ -49,6 +57,10 @@ const Moviedetail = () => {
         const relatedApiUrl = RelatedMovie(id);
         const Relatedmoviefetch = await FetchMovies(relatedApiUrl);
         setRelated(Relatedmoviefetch.results || []);
+        const trailerApiUrl = MovieTrailer(id);
+        const trailerfetch = await FetchMovies(trailerApiUrl);
+        Settrailer(trailerfetch.results || []);
+        console.log("trailer", trailer);
         console.log("related movies", Related);
       } catch (error) {
         console.error("Error fetching movie details or cast:", error);
@@ -165,10 +177,62 @@ const Moviedetail = () => {
                             </div>
                           </div>
                           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 w-auto h-full container mx-12 mt-6">
-                            <div className="bg-gray-800  rounded-3xl object-center items-center w-full">
-                              <IconButton className=" bg-green-500 p-4 rounded-3xl">
-                                <PlayIcon className="w-full h-32 mx-16" />
-                              </IconButton>
+                            <div className="bg-inherit border-none rounded-3xl object-center items-center w-full">
+                              <Dialog size="screen">
+                                <Dialog.Trigger
+                                  as={Button}
+                                  className="bg-inherit"
+                                >
+                                  <IconButton className=" bg-green-500 p-4 rounded-3xl">
+                                    <PlayIcon className="w-full h-32 mx-16" />
+                                  </IconButton>
+                                </Dialog.Trigger>
+                                <Dialog.Overlay>
+                                  <Dialog.Content className="w-full h-full">
+                                    <div className="flex items-center justify-between gap-4">
+                                      <Typography type="h6">
+                                        {selectedmovie.title}
+                                      </Typography>
+                                      <Dialog.DismissTrigger
+                                        as={IconButton}
+                                        size="sm"
+                                        variant="ghost"
+                                        color="secondary"
+                                        className="absolute right-2 top-2"
+                                        isCircular
+                                      >
+                                        <Xmark className="h-5 w-5" />
+                                      </Dialog.DismissTrigger>
+                                    </div>
+                                    <Card>
+                                      <Card.Body>
+                                        {trailer.map((video) => (
+                                          <div key={video.id} className="mb-4">
+                                            <iframe
+                                              width="100%"
+                                              height="315"
+                                              src={`https://www.youtube.com/embed/${video.key}`}
+                                              title={video.name}
+                                              frameBorder="0"
+                                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                              allowFullScreen
+                                            ></iframe>
+                                          </div>
+                                        ))}
+                                      </Card.Body>
+                                    </Card>
+                                    <div className="mb-1 flex items-center justify-end gap-2">
+                                      <Dialog.DismissTrigger
+                                        as={Button}
+                                        variant="ghost"
+                                        color="error"
+                                      >
+                                        Cancel
+                                      </Dialog.DismissTrigger>
+                                    </div>
+                                  </Dialog.Content>
+                                </Dialog.Overlay>
+                              </Dialog>
                             </div>
                             <div class="bg-gray-800 rounded-3xl flex items-center backdrop-blur-md bg-inherit bg-opacity-55">
                               <div class="-rotate-90 items-start justify-start ">
@@ -364,6 +428,7 @@ const Moviedetail = () => {
               selectedmovie={selectedmovie}
               Moviecast={Moviecast}
               Related={Related}
+              trailer={trailer}
             />
           </React.Fragment>
         )

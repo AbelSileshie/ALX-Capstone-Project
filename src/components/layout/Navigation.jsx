@@ -6,45 +6,32 @@ import {
   Typography,
   Collapse,
   Navbar,
-  Card,
   List,
-  Avatar,
-  Menu,
-  Tooltip,
-  Accordion,
   Button,
 } from "@material-tailwind/react";
-import {
-  Archive,
-  HeadsetHelp,
-  LogOut,
-  Menu as MenuIcon,
-  MultiplePages,
-  NavArrowDown,
-  ProfileCircle,
-  SelectFace3d,
-  Xmark,
-} from "iconoir-react";
+import { Menu as MenuIcon, Xmark } from "iconoir-react";
 import { AuthStore } from "../../store/UseAuthStore";
 import { useNavigate } from "react-router-dom";
 const LINKS = [
   {
-    title: "Movie",
+    title: "Movies",
   },
   {
     title: "Series",
   },
-  {
-    title: "Search",
-  },
 ];
 
 function NavList() {
+  const Navigate = useNavigate();
   return (
     <>
-      {LINKS.map(({ title, href }) => (
+      {LINKS.map(({ title }) => (
         <List.Item key={title}>
-          <Typography type="medium" className="text-white">
+          <Typography
+            type="medium"
+            className="text-white cursor-pointer"
+            onClick={() => Navigate(`/${title}`)}
+          >
             {title}
           </Typography>
         </List.Item>
@@ -52,23 +39,6 @@ function NavList() {
     </>
   );
 }
-
-const MenuItem = React.forwardRef(function MenuItem(
-  { title, description, ...rest },
-  ref
-) {
-  return (
-    <Menu.Item ref={ref} {...rest} className="flex-col items-start">
-      <Typography color="default" className="font-semibold text-white">
-        {title}
-      </Typography>
-      <Typography type="small" className="text-foreground">
-        {description}
-      </Typography>
-    </Menu.Item>
-  );
-});
-
 export default function Navigation() {
   const Authenticated = AuthStore.getState().isAuthenticated;
   console.log(Authenticated);

@@ -20,17 +20,17 @@ export default function Authentication4() {
 
   return (
     <Suspense fallback={<Spiner />}>
-      <div className="sticky top-0 left-0 w-full z-50 bg-white shadow-md p-2 bg-transparent">
+      <div className="sticky top-0 left-0 w-full z-50 bg-black shadow-md p-2">
         <Navigation />
       </div>
-      <main className="pb-8">
-        <section className="flex-grow pt-2 p-2">
+      <main className="">
+        <section className="flex-grow bg-black text-white">
           <div className="grid place-items-center min-w-screen min-h-screen p-4">
             <div className="w-full max-w-md mx-auto p-4">
               <Typography as="h2" type="h4" className="mb-2 text-center">
                 Sign Up
               </Typography>
-              <Typography type="lead" className="text-foreground text-center">
+              <Typography type="lead" className="text-white text-center">
                 Enter your email and password to sign Up
               </Typography>
               <form action="#" className="mt-12">
@@ -102,23 +102,14 @@ export default function Authentication4() {
                   Sign Up
                 </Button>
               </form>
-              <div className="my-6">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  color="secondary"
-                  isFullWidth
-                >
-                  <GoogleCircle className="w-5 h-5 mr-2" /> Sign up with Google
-                </Button>
-              </div>
-              <Typography className="flex items-center justify-center gap-1 text-foreground">
+              <div className="my-6"></div>
+              <Typography className="flex items-center justify-center gap-1 text-white">
                 already registered?
                 <Typography
                   color="primary"
                   as="a"
                   href="#"
-                  className="font-semibold"
+                  className="font-semibold text-white"
                   onClick={() => navigate("/Login")}
                 >
                   Login
@@ -128,7 +119,7 @@ export default function Authentication4() {
           </div>
         </section>
       </main>
-      <footer className="mt-auto bg-white p-8">
+      <footer className="mt-auto bg-black p-8">
         <Footer />
       </footer>
     </Suspense>

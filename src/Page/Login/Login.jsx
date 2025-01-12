@@ -59,18 +59,18 @@ export default function Login() {
 
   return (
     <Suspense fallback={<Spiner />}>
-      <div className="sticky top-0 left-0 w-full z-50 bg-white shadow-md p-2 bg-transparent">
+      <div className="sticky top-0 left-0 w-full z-50 shadow-md p-2 bg-black">
         <Navigation />
       </div>
-      <main className="pb-8">
-        <section className="flex-grow pt-2 p-2">
+      <main className="">
+        <section className="flex-grow pt-2 p-2 text-white bg-black">
           <div className="grid place-items-center min-w-screen min-h-screen p-4">
             <div className="w-full max-w-md mx-auto p-4">
               <Typography as="h2" type="h4" className="mb-2 text-center">
                 Sign In
               </Typography>
 
-              <Typography type="lead" className="text-foreground text-center">
+              <Typography type="lead" className="text-white text-center">
                 Enter your email and password to sign in
               </Typography>
               <form onSubmit={handleSubmit} className="mt-12">
@@ -152,24 +152,15 @@ export default function Login() {
                 </Button>
               </form>
 
-              <div className="my-6">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  color="secondary"
-                  isFullWidth
-                >
-                  <GoogleCircle className="w-5 h-5 mr-2" /> Sign up with Google
-                </Button>
-              </div>
+              <div className="my-6"></div>
 
-              <Typography className="flex items-center justify-center gap-1 text-foreground">
+              <Typography className="flex items-center justify-center gap-1 text-whote">
                 Not registered?
                 <Typography
                   color="primary"
                   as="a"
                   href="#"
-                  className="font-semibold"
+                  className="font-semibold text-white"
                   onClick={() => Navigate("/Signup")}
                 >
                   Create account
@@ -179,7 +170,7 @@ export default function Login() {
           </div>
         </section>
       </main>
-      <footer className="mt-auto bg-white p-8">
+      <footer className="mt-auto bg-black p-8">
         <Footer />
       </footer>
     </Suspense>

@@ -9,6 +9,8 @@ import Error404 from "../error/Error404";
 import { Spiner } from "../layout/Spiner";
 import Moviedetail from "../../Page/Movie/Moviedetail";
 import Series from "../specific/Movie/Series";
+import Movies from "../../Page/Movies/Movies";
+import Seriess from "../../Page/Series/Series";
 
 export default function AppRouter() {
   const [isConnected, setIsConnected] = useState(navigator.onLine);
@@ -40,6 +42,8 @@ export default function AppRouter() {
         <Route path="/Signup" element={<Signup />} />
         <Route path="/movie/:id" element={<Moviedetail />} />
         <Route path="/series/:id" element={<Series />} />
+        <Route path="/Movies" element={<Movies />} />
+        <Route path="/Series" element={<Seriess />} />
       </Routes>
     </Suspense>
   );

@@ -46,3 +46,23 @@ export const PopularPersons = `${
 export const RelatedSeries = (movie_id) => {
   return `${import.meta.env.VITE_TMDB_API_URL}/tv/${movie_id}/similar`;
 };
+export const PersonDetail = (person_id) => {
+  return `${import.meta.env.VITE_TMDB_API_URL}/person/${person_id}?api_key=${
+    import.meta.env.VITE_TMDB_API_KEY
+  }`;
+};
+export const MovieTrailer = (movie_id) => {
+  return `${
+    import.meta.env.VITE_TMDB_API_URL
+  }/movie/${movie_id}/videos?language=en-US`;
+};
+export const SearchMovie = (query) => {
+  return `${import.meta.env.VITE_TMDB_API_URL}/search/movie?api_key=${
+    import.meta.env.VITE_TMDB_API_KEY
+  }&query=${query}`;
+};
+export const SearchSeries = (query) => {
+  return `${import.meta.env.VITE_TMDB_API_URL}/search/tv?api_key=${
+    import.meta.env.VITE_TMDB_API_KEY
+  }&query=${query}`;
+};

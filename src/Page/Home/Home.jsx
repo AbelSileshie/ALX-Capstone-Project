@@ -6,6 +6,7 @@ import TrendingMoviesCard from "../../components/specific/Home/Tredingmoviescard
 import Theatre from "../../components/specific/Home/Thetre";
 import { Typography } from "@material-tailwind/react";
 import { useBackgroundStore } from "../../store/BackgroundStore";
+import Celebrties from "../../components/specific/Home/Celebrties";
 const Spiner = React.lazy(() => import("../../components/layout/Spiner"));
 
 const Home = () => {
@@ -19,21 +20,22 @@ const Home = () => {
             <Heroscetion />
           </Suspense>
         </section>
-
         <section className=" bg-black">
           <Suspense fallback={<Spiner />}>
             <FeaturedToday />
           </Suspense>
         </section>
-
-        {/* Trending Movies */}
         <section className="">
           <Suspense fallback={<Spiner />}>
             <TrendingMoviesCard />
           </Suspense>
         </section>
+        <section className="">
+          <Suspense fallback={<Spiner />}>
+            <Celebrties />
+          </Suspense>
+        </section>
 
-        {/* Theatre Section */}
         <section className=" bg-gradient-to-b from-black via-transparent to-transparent ">
           <Theatre />
         </section>

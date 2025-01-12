@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Card, Typography, IconButton, Button } from "@material-tailwind/react";
+import { Card, Typography, IconButton } from "@material-tailwind/react";
 import { NavArrowLeft, NavArrowRight, StarSolid } from "iconoir-react";
 import { FetchMovies } from "../../../Services/Fetchmovies";
-import { PopularSeries, TopRatedMovies } from "../../../utils/APIPath";
+import { PopularSeries } from "../../../utils/APIPath";
 import { posterpath } from "../../../utils/APIPath";
 import Rating from "../../common/Rating";
-const TrendingMoviesCard = () => {
+
+const TopIMDB = () => {
   const [visibleMovies, setVisibleMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [moviesPerPage, setMoviesPerPage] = useState(null);
   const [movies, setMovies] = useState([]);
-
-  const [select, setSelect] = useState(TopRatedMovies);
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,7 +34,8 @@ const TrendingMoviesCard = () => {
 
     const fetchMovies = async () => {
       try {
-        const fetchedMovies = await FetchMovies(select);
+        const popular = PopularSeries;
+        const fetchedMovies = await FetchMovies(popular);
         setMovies(fetchedMovies.results);
         console.log(fetchedMovies.results);
         setVisibleMovies(fetchedMovies.results.slice(0, moviesPerPage || 5));
@@ -52,7 +52,7 @@ const TrendingMoviesCard = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [moviesPerPage, select]);
+  }, [moviesPerPage]);
   useEffect(() => {
     if (moviesPerPage !== null) {
       const startIndex = currentPage * moviesPerPage;
@@ -72,37 +72,17 @@ const TrendingMoviesCard = () => {
       setCurrentPage((prev) => prev - 1);
     }
   };
-  const selecthandler = (text) => {
-    if (text === "react") {
-      setSelect(PopularSeries);
-    } else if (text === "html") {
-      setSelect(TopRatedMovies);
-    }
-  };
+
   return (
     <div className="w-full">
-      <div className="flex items-center p-4 gap-5 justify-between">
-        <div className=" flex  items-center  w-[90vw] h-full ">
+      <div className="flex justify-start items-center p-4">
+        <div className=" justify-between items-end w-[90vw] h-full ">
           <Typography
             color="primary"
             className="text-yellow-500 font-mono font-extrabold sm:text-xl text-2xl cursor-pointer"
           >
             |Top Rated IMDB
           </Typography>
-          <div className=" justify-start items-start m-2 ml-5 flex gap-2">
-            <Button
-              variant={select === PopularSeries ? "solid" : "outline"}
-              onClick={() => selecthandler("react")}
-            >
-              Movies
-            </Button>
-            <Button
-              variant={select === TopRatedMovies ? "solid" : "outline"}
-              onClick={() => selecthandler("html")}
-            >
-              Series
-            </Button>
-          </div>
         </div>
         <div className="flex gap-3">
           <IconButton
@@ -128,7 +108,7 @@ const TrendingMoviesCard = () => {
             className="max-w-full w-auto md:w-[90vw] mx-auto shadow-none bg-transparent border-none"
           >
             <Card.Body className="relative overflow-hidden p-0 h-[13rem] shadow-lg">
-              <div className=" absolute flex items-center justify-end sm:mx-24 lg:mx-36 w-12 h-12 md:mx-36 bg-black bg-opacity-50">
+              <div className=" absolute flex items-center justify-end sm:mx-24 lg:mx-36 w-12 h-12">
                 <Rating rating={movie.vote_average} />
               </div>
               <img
@@ -156,4 +136,4 @@ const TrendingMoviesCard = () => {
   );
 };
 
-export default TrendingMoviesCard;
+export default TopIMDB;

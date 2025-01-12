@@ -94,13 +94,13 @@ const TrendingMoviesCard = () => {
               variant={select === PopularSeries ? "solid" : "outline"}
               onClick={() => selecthandler("react")}
             >
-              Movies
+              React Version
             </Button>
             <Button
               variant={select === TopRatedMovies ? "solid" : "outline"}
               onClick={() => selecthandler("html")}
             >
-              Series
+              HTML Version
             </Button>
           </div>
         </div>
