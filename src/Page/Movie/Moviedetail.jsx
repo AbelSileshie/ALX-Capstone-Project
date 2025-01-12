@@ -60,8 +60,6 @@ const Moviedetail = () => {
         const trailerApiUrl = MovieTrailer(id);
         const trailerfetch = await FetchMovies(trailerApiUrl);
         Settrailer(trailerfetch.results || []);
-        console.log("trailer", trailer);
-        console.log("related movies", Related);
       } catch (error) {
         console.error("Error fetching movie details or cast:", error);
       }
@@ -79,7 +77,6 @@ const Moviedetail = () => {
 
   const selectHandler = (movieId) => {
     navigate(`/movie/${movieId}`);
-    console.log("navigation Activated,", movieId);
   };
   const { isMovieSaved, addMovie, removeMovie } = useMovieStore();
 
@@ -87,17 +84,14 @@ const Moviedetail = () => {
     const Toekn = AuthStore.getState().token;
     if (!Toekn) {
       navigate("/login");
-      console.log("Please login to save movie", Toekn);
       addMovie();
     } else {
     }
     addMovie(selectedmovie);
-    console.log("Movie saved:", selectedmovie);
   };
 
   const handleRemoveMovie = (movieId) => {
     removeMovie(movieId);
-    console.log("Movie removed:", movieId);
   };
   return (
     <React.Fragment>
@@ -206,7 +200,7 @@ const Moviedetail = () => {
                                     </div>
                                     <Card>
                                       <Card.Body>
-                                        {trailer.map((video) => (
+                                        {trailer.slice(0, 2).map((video) => (
                                           <div key={video.id} className="mb-4">
                                             <iframe
                                               width="100%"

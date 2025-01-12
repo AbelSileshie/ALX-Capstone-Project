@@ -28,23 +28,19 @@ const Mobile = ({ selectedmovie, Moviecast, Related, trailer }) => {
     const Toekn = AuthStore.getState().token;
     if (!Toekn) {
       navigate("/login");
-      console.log("Please login to save movie", Toekn);
       addMovie();
     } else {
     }
     addMovie(selectedmovie);
-    console.log("Movie saved:", selectedmovie);
   };
 
   const handleRemoveMovie = (movieId) => {
     removeMovie(movieId);
-    console.log("Movie removed:", movieId);
   };
   const navigate = useNavigate();
 
   const selectHandler = (movieId) => {
     navigate(`/movie/${movieId}`);
-    console.log("navigation Activated,", movieId);
   };
   return (
     <Suspense fallback={<Spiner />}>

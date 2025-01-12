@@ -82,25 +82,18 @@ export default function Upcoming() {
       try {
         const movieData = await FetchMovies(UpcomingMovies);
         setMovies(movieData.results);
-        console.log("Movies", movieData);
-      } catch (error) {
-        console.error("Error in HeroSection fetch:", error);
-      }
+      } catch (error) {}
     };
     setLoading(false);
     fetchAndStoreMovies();
-    return () => {
-      console.log("Component unmounted, movies:", movies);
-    };
+    return () => {};
   }, [setMovies]);
   const handleSaveMovie = (movie) => {
     addMovie(movie);
-    console.log("Movie saved:", movie);
   };
 
   const handleRemoveMovie = (movieId) => {
     removeMovie(movieId);
-    console.log("Movie removed:", movieId);
   };
   const selecthandler = (movieId, type) => {
     navigate(`/${type}/${movieId}`);

@@ -32,20 +32,12 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email || !password) {
-      console.error("Email and password are required!");
       return;
     }
     const endpoint = Loginendpoint;
     loginUser(email, password, endpoint)
       .then((data) => {
         setLoading(true);
-        console.log(
-          "Access token:",
-          data.access_token,
-          "refresh token",
-          data.refresh_token
-        );
-        console.log("User:", data);
         setLogin(data);
         setToken(data.access_token);
         setRefreshToken(data.refresh_token);
@@ -53,9 +45,7 @@ export default function Login() {
       .then(() => {
         Navigate("/");
       })
-      .catch((error) => {
-        console.error("Error:", error.message);
-      });
+      .catch((error) => {});
   };
 
   return (

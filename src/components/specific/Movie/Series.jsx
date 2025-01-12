@@ -36,7 +36,6 @@ const Series = () => {
         const apiUrl = SeriesDetail(id);
         const movieDetails = await FetchMovies(apiUrl);
         setSelectedMovie(movieDetails);
-        console.log("Movie details:", movieDetails);
 
         const castApiUrl = MovieCastPath(id);
         const castDetails = await FetchMovies(castApiUrl);
@@ -44,10 +43,7 @@ const Series = () => {
         const relatedApiUrl = RelatedSeries(id);
         const Relatedmoviefetch = await FetchMovies(relatedApiUrl);
         setRelated(Relatedmoviefetch.results || []);
-        console.log("related movies", Related);
-      } catch (error) {
-        console.error("Error fetching movie details or cast:", error);
-      }
+      } catch (error) {}
     };
 
     fetchMovieDetail();

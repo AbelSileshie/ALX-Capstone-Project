@@ -73,16 +73,11 @@ export default function Herosection() {
       try {
         const movieData = await FetchMovies(DiscoverMovies);
         setMovies(movieData.results);
-        console.log("Movies", movieData);
-      } catch (error) {
-        console.error("Error in HeroSection fetch:", error);
-      }
+      } catch (error) {}
     };
     setLoading(false);
     fetchAndStoreMovies();
-    return () => {
-      console.log("Component unmounted, movies:", movies);
-    };
+    return () => {};
   }, [setMovies]);
   const selecthandler = (movie) => {
     setSelectedMovie(movie);

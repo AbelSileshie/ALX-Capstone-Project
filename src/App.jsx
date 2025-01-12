@@ -10,14 +10,6 @@ import { Spiner } from "./components/layout/Spiner";
 const Home = lazy(() => import("./Page/Home/Home"));
 
 function App() {
-  const savedData = AuthStore((state) => state.user);
-  const Token = AuthStore.getState().token;
-  const user_id = AuthStore.getState().user_id;
-  console.log("saved Data", savedData?.id);
-  console.log("saved Token", savedData?.id);
-  console.log("saved user_id", user_id);
-  // console.log("Data", data.user.id);
-
   return (
     <>
       <Suspense fallback={<Spiner />}>

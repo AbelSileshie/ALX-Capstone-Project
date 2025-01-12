@@ -42,11 +42,8 @@ const TrendingMoviesCard = () => {
       try {
         const fetchedMovies = await FetchMovies(select);
         setMovies(fetchedMovies.results);
-        console.log(fetchedMovies.results);
         setVisibleMovies(fetchedMovies.results.slice(0, moviesPerPage || 5));
-      } catch (error) {
-        console.error("Error fetching movies:", error);
-      }
+      } catch (error) {}
     };
 
     handleResize();
