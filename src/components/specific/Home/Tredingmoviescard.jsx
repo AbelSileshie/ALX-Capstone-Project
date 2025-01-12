@@ -1,119 +1,66 @@
 import React, { useState, useEffect } from "react";
 import { Card, Typography, IconButton } from "@material-tailwind/react";
 import { NavArrowLeft, NavArrowRight, StarSolid } from "iconoir-react";
-import {
-  ArrowLeftCircleIcon,
-  ArrowRightCircleIcon,
-} from "@heroicons/react/24/solid";
-
+import { FetchMovies } from "../../../Services/Fetchmovies";
+import { PopularSeries } from "../../../utils/APIPath";
+import { posterpath } from "../../../utils/APIPath";
 const TrendingMoviesCard = () => {
-  const dummyMovies = [
-    {
-      id: 1,
-      title: "Movie 1",
-      description: "Description of Movie 1",
-      image:
-        "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=1600&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 2,
-      title: "Movie 2",
-      description: "Description of Movie 2",
-      image:
-        "https://plus.unsplash.com/premium_photo-1673603988651-99f79e4ae7d3?w=1600&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 3,
-      title: "Movie 3",
-      description: "Description of Movie 3",
-      image:
-        "https://images.unsplash.com/photo-1465189684280-6a8fa9b19a7a?w=1600&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 4,
-      title: "Movie 4",
-      description: "Description of Movie 4",
-      image:
-        "https://images.unsplash.com/photo-1458668383970-8ddd3927deed?w=1600&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 5,
-      title: "The Dumb Abd Dumber",
-      description: "Description of Movie 5",
-      image:
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 6,
-      title: "Movie 6",
-      description: "Description of Movie 6",
-      image:
-        "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=1600&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 7,
-      title: "Movie 7",
-      description: "Description of Movie 7",
-      image:
-        "https://plus.unsplash.com/premium_photo-1673603988651-99f79e4ae7d3?w=1600&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 8,
-      title: "Movie 8",
-      description: "Description of Movie 8",
-      image:
-        "https://images.unsplash.com/photo-1465189684280-6a8fa9b19a7a?w=1600&auto=format&fit=crop&q=80",
-    },
-  ];
-
   const [visibleMovies, setVisibleMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [moviesPerPage, setMoviesPerPage] = useState(null);
+  const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = window.innerWidth;
 
+      let newMoviesPerPage;
       if (screenWidth >= 1280) {
-        setMoviesPerPage(5);
+        newMoviesPerPage = 5;
       } else if (screenWidth >= 1024) {
-        setMoviesPerPage(5);
+        newMoviesPerPage = 5;
       } else if (screenWidth >= 768) {
-        setMoviesPerPage(3);
+        newMoviesPerPage = 3;
       } else {
-        setMoviesPerPage(2);
+        newMoviesPerPage = 2;
+      }
+
+      if (newMoviesPerPage !== moviesPerPage) {
+        setMoviesPerPage(newMoviesPerPage);
       }
     };
 
     const fetchMovies = async () => {
       try {
-        // Simulate fetching movies from an API
-        const fetchedMovies = await new Promise((resolve) =>
-          setTimeout(() => resolve(dummyMovies), 1000)
-        );
-
-        setVisibleMovies(fetchedMovies.slice(0, moviesPerPage));
+        const popular = PopularSeries;
+        const fetchedMovies = await FetchMovies(popular);
+        setMovies(fetchedMovies.results);
+        console.log(fetchedMovies.results);
+        setVisibleMovies(fetchedMovies.results.slice(0, moviesPerPage || 5));
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
     };
+
     handleResize();
     fetchMovies();
+
     window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [moviesPerPage]);
-
   useEffect(() => {
-    const startIndex = currentPage * moviesPerPage;
-    const endIndex = startIndex + moviesPerPage;
-    setVisibleMovies(dummyMovies.slice(startIndex, endIndex));
-  }, [currentPage, moviesPerPage]);
+    if (moviesPerPage !== null) {
+      const startIndex = currentPage * moviesPerPage;
+      const endIndex = startIndex + moviesPerPage;
+      setVisibleMovies(movies.slice(startIndex, endIndex));
+    }
+  }, [currentPage, moviesPerPage, movies]);
 
   const handleNext = () => {
-    if ((currentPage + 1) * moviesPerPage < dummyMovies.length) {
+    if ((currentPage + 1) * moviesPerPage < movies.length) {
       setCurrentPage((prev) => prev + 1);
     }
   };
@@ -123,12 +70,16 @@ const TrendingMoviesCard = () => {
       setCurrentPage((prev) => prev - 1);
     }
   };
-
   return (
-    <div className="w-full pb-4">
+    <div className="w-full">
       <div className="flex justify-start items-center p-4">
-        <div className=" justify-between items-end w-full h-full ">
-          <Typography>Test</Typography>
+        <div className=" justify-between items-end w-[90vw] h-full ">
+          <Typography
+            color="primary"
+            className="text-yellow-500 font-mono font-extrabold sm:text-xl text-2xl cursor-pointer"
+          >
+            |Top Rated IMDB
+          </Typography>
         </div>
         <div className="flex gap-3">
           <IconButton
@@ -136,14 +87,14 @@ const TrendingMoviesCard = () => {
             disabled={currentPage === 0}
             className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
           >
-            <NavArrowLeft className="h-6 w-6 text-black" />
+            <NavArrowLeft className="h-6 w-6 text-white" />
           </IconButton>
           <IconButton
             onClick={handleNext}
-            disabled={(currentPage + 1) * moviesPerPage >= dummyMovies.length}
+            disabled={(currentPage + 1) * moviesPerPage >= movies.length}
             className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
           >
-            <NavArrowRight className="h-6 w-6 text-black" />
+            <NavArrowRight className="h-6 w-6 text-white" />
           </IconButton>
         </div>
       </div>
@@ -151,29 +102,33 @@ const TrendingMoviesCard = () => {
         {visibleMovies.map((movie) => (
           <Card
             key={movie.id}
-            className="max-w-full  md:w-[90vw] mx-auto shadow-none bg-transparent border-none"
+            className="max-w-full w-auto md:w-[90vw] mx-auto shadow-none bg-transparent border-none"
           >
             <Card.Body className="relative overflow-hidden p-0 h-[13rem] shadow-lg">
               <img
-                src={movie.image}
+                src={`${posterpath}${movie.poster_path}`}
                 alt={movie.title}
-                className="w-full h-full object-cover shadow-lg"
+                className="w-[10rem] h-full object-contain object-top rounded-md mx-auto"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/90 text-white flex items-end p-3">
+              <div className=" absolute inset-0 bg-black/30 flex items-start justify-start mx-12 p-2 w-16 h-12">
+                <Typography className="flex items-center gap-1.5">
+                  <StarSolid className="h-5 w-5 text-yellow-500" />
+                  {movie.vote_average.toFixed(1)}
+                </Typography>
+              </div>
+            </Card.Body>
+            <Card.Footer className="flex justify-between items-center w-full mx-auto">
+              <div className="  text-white flex items-end p-3 mx-auto">
                 <div className="w-full flex items-center justify-between">
                   <Typography
                     variant="h1"
                     className="text-lg font-extrabold text-gray-100"
                   >
-                    {movie.title}
-                  </Typography>
-                  <Typography className="flex items-center gap-1.5">
-                    <StarSolid className="h-5 w-5 text-yellow-500" />
-                    5.0
+                    {movie.name}
                   </Typography>
                 </div>
               </div>
-            </Card.Body>
+            </Card.Footer>
           </Card>
         ))}
       </div>

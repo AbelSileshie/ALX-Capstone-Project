@@ -12,9 +12,9 @@ const Home = () => {
   const background = useBackgroundStore((state) => state.background);
 
   return (
-    <div className="w-full flex flex-col mt-0 rounded-lg  mx-auto shadow-none h-full bg-black">
-      <div className="w-full">
-        <section className="w-[98vw] h-[90vh] mx-auto">
+    <div className="w-full flex flex-col mt-0 rounded-lg  mx-auto shadow-none h-full bg-black ">
+      <div className="w-full ">
+        <section className="w-auto h-[90vh]">
           <Suspense fallback={<Spiner />}>
             <Heroscetion />
           </Suspense>
@@ -34,10 +34,10 @@ const Home = () => {
         </section>
 
         {/* Theatre Section */}
-        <section className="w-full bg-gradient-to-b from-black via-transparent to-transparent ">
+        <section className=" bg-gradient-to-b from-black via-transparent to-transparent ">
           <Theatre />
         </section>
-        <section className="">
+        <section className="sm:p-8">
           <Suspense fallback={<Spiner />}>
             <TopIMDB />
           </Suspense>

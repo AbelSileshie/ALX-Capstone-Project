@@ -15,8 +15,10 @@ import {
 import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
+  ArrowRightIcon,
   BookmarkIcon,
   BookmarkSlashIcon,
+  ChevronRightIcon,
 } from "@heroicons/react/24/solid";
 import { posterpath, UpcomingMovies } from "../../../utils/APIPath";
 import { FetchMovies } from "../../../Services/Fetchmovies";
@@ -113,34 +115,49 @@ const FeaturedToday = () => {
     console.log("Movie removed:", movieId);
   };
   return (
-    <div className="w-full md:mx-auto lg:mx-auto sm:mx-0">
+    <div className="w-full md:mx-auto lg:mx-auto sm:mx-0 sm:mt-12">
       <div className="flex justify-start items-center p-4">
-        <div className=" justify-between items-end w-full h-full">
-          <Typography>Test</Typography>
+        <div className=" justify-between items-end w-[90vw] h-full ">
+          <div className="flex items-center gap-2">
+            <Typography
+              color="primary"
+              className="text-yellow-500 font-mono font-extrabold sm:text-xl text-2xl cursor-pointer"
+            >
+              |Featured Movies
+            </Typography>
+            <IconButton
+              color="primary"
+              type="outline"
+              className="text-white hover:text-yellow-500 font-mono font-extrabold  bg-inherit border-none hover:bg-inherit"
+            >
+              <ChevronRightIcon className="w-8 h-8" />
+            </IconButton>
+          </div>
         </div>
+
         <div className="flex gap-3">
           <IconButton
             onClick={handlePrevious}
             disabled={currentPage === 0}
             className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
           >
-            <NavArrowLeft className="h-6 w-6 text-black" />
+            <NavArrowLeft className="h-6 w-6 text-white" />
           </IconButton>
           <IconButton
             onClick={handleNext}
             disabled={(currentPage + 1) * moviesPerPage >= dummyMovies.length}
             className="bg-transparent hover:bg-gray-400 disabled:opacity-50 w-8 h-8 rounded-full"
           >
-            <NavArrowRight className="h-6 w-6 text-black" />
+            <NavArrowRight className="h-6 w-6 text-white" />
           </IconButton>
         </div>
       </div>
       <div className=" lg:container w-screen lg:mx-auto sm:mx-auto md:mx-auto ">
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:w-[95vw] md:w-[90vw] sm:w-[90vw] justify-center items-center">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:w-[95vw] md:w-[90vw] sm:w-auto justify-center items-center">
           {visibleMovies.map((movie) => (
             <Card
               key={movie.id}
-              className="lg:w-full md:w-full sm:max-w-full lg:mx-0 sm:mx-3 shadow-none border-none rounded-[1.5rem] bg-white bg-opacity-40  "
+              className="lg:w-full md:w-full sm:w-auto lg:mx-0 sm:mx-3 shadow-none border-none rounded-[1.5rem] bg-white bg-opacity-40  "
             >
               <Card.Body className="relative overflow-hidden p-0 lg:h-[15rem] sm:h-[13rem]">
                 <div
