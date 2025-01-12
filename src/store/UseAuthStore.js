@@ -11,10 +11,10 @@ export const AuthStore = create(
       setLogin: (data) => {
         set({
           token: "",
-          user: data.user,
+          user: data?.user,
           isAuthenticated: true,
           refresh_token: "",
-          user_id: data.user.id,
+          user_id: data?.user?.id,
         });
       },
       logout: () =>

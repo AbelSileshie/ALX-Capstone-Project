@@ -41,7 +41,6 @@ function NavList() {
 }
 export default function Navigation() {
   const Authenticated = AuthStore.getState().isAuthenticated;
-  console.log(Authenticated);
   const logout = AuthStore((state) => state.logout);
   const Navigate = useNavigate();
   const handleLogout = () => {

@@ -1,9 +1,8 @@
 import axios from "axios";
-import { Loginendpoint } from "../utils/APIPath";
-export async function loginUser(email, password) {
+export async function loginUser(email, password, endpoint) {
   try {
     const response = await axios.post(
-      Loginendpoint,
+      endpoint,
       { email, password },
       {
         headers: {

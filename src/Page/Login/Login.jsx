@@ -16,6 +16,7 @@ import { Suspense } from "react";
 import { Spiner } from "../../components/layout/Spiner";
 import Footer from "../../components/layout/Footer";
 import Navigation from "../../components/layout/Navigation";
+import { Loginendpoint } from "../../utils/APIPath";
 
 export default function Login() {
   const Navigate = useNavigate();
@@ -34,8 +35,8 @@ export default function Login() {
       console.error("Email and password are required!");
       return;
     }
-
-    loginUser(email, password)
+    const endpoint = Loginendpoint;
+    loginUser(email, password, endpoint)
       .then((data) => {
         setLoading(true);
         console.log(
@@ -59,11 +60,11 @@ export default function Login() {
 
   return (
     <Suspense fallback={<Spiner />}>
-      <div className="sticky top-0 left-0 w-full z-50 shadow-md p-2 bg-black">
+      <div className="sticky top-0 left-0 w-full z-50 shadow-md p-2 bg-black/40">
         <Navigation />
       </div>
       <main className="">
-        <section className="flex-grow pt-2 p-2 text-white bg-black">
+        <section className="flex-grow pt-2 p-2 text-white bg-black/40">
           <div className="grid place-items-center min-w-screen min-h-screen p-4">
             <div className="w-full max-w-md mx-auto p-4">
               <Typography as="h2" type="h4" className="mb-2 text-center">

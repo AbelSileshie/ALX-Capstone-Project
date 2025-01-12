@@ -8,23 +8,53 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
-
-import { GoogleCircle, Eye, EyeClosed } from "iconoir-react";
+import { Eye, EyeClosed } from "iconoir-react";
 import { Spiner } from "../../components/layout/Spiner";
 import { Suspense } from "react";
 import Navigation from "../../components/layout/Navigation";
 import Footer from "../../components/layout/Footer";
+import { AuthStore } from "../../store/UseAuthStore";
+import { loginUser } from "../../Services/LoginService";
+import { Signupendpoint } from "../../utils/APIPath";
+
 export default function Authentication4() {
   const navigate = useNavigate();
   const [inputType, setInputType] = React.useState("password");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const setLogin = AuthStore((state) => state.setLogin);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      return;
+    }
+
+    setLoading(true);
+    const endpoint = Signupendpoint;
+    loginUser(email, password, Signupendpoint)
+      .then((data) => {
+        if (data && data?.id) {
+          setLogin(data);
+        } else {
+        }
+      })
+      .then(() => {
+        navigate("/Login");
+      })
+      .catch((error) => {})
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <Suspense fallback={<Spiner />}>
-      <div className="sticky top-0 left-0 w-full z-50 bg-black shadow-md p-2">
+      <div className="sticky top-0 left-0 w-full z-50 bg-black/25 shadow-md p-2">
         <Navigation />
       </div>
-      <main className="">
-        <section className="flex-grow bg-black text-white">
+      <main>
+        <section className="flex-grow bg-black/40 text-white">
           <div className="grid place-items-center min-w-screen min-h-screen p-4">
             <div className="w-full max-w-md mx-auto p-4">
               <Typography as="h2" type="h4" className="mb-2 text-center">
@@ -33,7 +63,7 @@ export default function Authentication4() {
               <Typography type="lead" className="text-white text-center">
                 Enter your email and password to sign Up
               </Typography>
-              <form action="#" className="mt-12">
+              <form onSubmit={handleSubmit} className="mt-12">
                 <div className="mb-6 space-y-1.5">
                   <Typography
                     as="label"
@@ -49,6 +79,8 @@ export default function Authentication4() {
                     id="email"
                     type="email"
                     placeholder="someone@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="mb-6 space-y-1.5">
@@ -66,6 +98,8 @@ export default function Authentication4() {
                     id="password"
                     type={inputType}
                     placeholder="********"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   >
                     <Input.Icon
                       as={IconButton}
@@ -98,8 +132,8 @@ export default function Authentication4() {
                     Forgot Password?
                   </Typography>
                 </div>
-                <Button size="lg" isFullWidth>
-                  Sign Up
+                <Button size="lg" isFullWidth type="submit" disabled={loading}>
+                  {loading ? "Loading..." : "Sign Up"}
                 </Button>
               </form>
               <div className="my-6"></div>
