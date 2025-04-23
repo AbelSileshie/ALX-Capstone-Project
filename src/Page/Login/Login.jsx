@@ -39,7 +39,7 @@ export default function Login() {
       .then((data) => {
         setLoading(true);
         setLogin(data);
-        setToken(data.access_token);
+        data.access_token;
         setRefreshToken(data.refresh_token);
       })
       .then(() => {

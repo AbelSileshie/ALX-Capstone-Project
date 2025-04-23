@@ -1,60 +1,113 @@
 # ALX Capstone Project
 
-This repository contains the code for the ALX Capstone Project, which is a web-based movie recommendation application. It allows users to view and search for movies, add them to their favorite list, and explore more information about movies through the TMDB (The Movie Database) API. The application also supports user authentication and uses Supabase as the backend for storing user information and authentication management.
+Discover Movies, Elevate Your Viewing Experience Today!
 
-## 💻 Technologies
+## Table of Contents
 
-This project is built with the following technologies:
+1. [Overview](#overview)
+2. [Getting Started](#getting-started)
+   - [Prerequisites](#prerequisites)
+   - [Installation](#installation)
+   - [Usage](#usage)
+   - [Testing](#testing)
 
-- **React**: A JavaScript library for building user interfaces.
-- **Tailwind CSS**: A utility-first CSS framework for styling the application.
-- **Zustand**: A small, fast state management library for React.
-- **Supabase**: An open-source Firebase alternative to handle authentication and the backend database.
-- **TMDB API**: The Movie Database API used to fetch movie data for display.
-- **Vite**: A fast build tool that provides a great development experience.
+---
 
-## 🚀 Getting Started
+## Overview
 
-Follow these steps to run the project locally.
+ALX-Capstone-Project is a modern web application designed for seamless movie discovery and management, leveraging cutting-edge technologies to enhance user engagement.
+
+### Why ALX-Capstone-Project?
+
+This project empowers developers to create a responsive movie platform with essential features for a smooth user experience. The core features include:
+
+- 🎨 **PostCSS Configuration**: Enhances styling capabilities with Tailwind CSS and Autoprefixer for modern, compatible designs.
+- ✅ **ESLint Integration**: Promotes code quality and consistency, reducing potential errors in JavaScript and React codebases.
+- ⚡ **Vite Build Tool**: Streamlines development with efficient hot module replacement and optimized builds for a smooth developer experience.
+- 📦 **Centralized State Management**: Utilizes Zustand for managing user authentication and movie data, enhancing performance and user experience.
+- 🎬 **Dynamic Components**: Responsive components for displaying movies and series, improving user engagement and interaction.
+- 🚨 **Error Handling Components**: User-friendly interfaces for managing connectivity and server errors, ensuring a robust application experience.
+
+---
+
+## Getting Started
+
+Follow these steps to set up and run the project locally.
 
 ### Prerequisites
 
-Before you begin, make sure you have the following installed:
+This project requires the following dependencies:
 
+- **Programming Language**: JavaScript
+- **Package Manager**: npm
 - [Node.js](https://nodejs.org): A JavaScript runtime to run and build your project.
 - [Git](https://git-scm.com): A version control system to clone the repository and manage the code.
 
-### Cloning the Project
+### Installation
 
-To get a local copy of the repository, follow these steps:
+Build ALX-Capstone-Project from the source and install dependencies:
 
-1. Open your terminal or command prompt.
-2. Clone the repository using the following command:
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/AbelSileshie/ALX-Capstone-Project.git
 ```
 
-## Opening The Project
+2. Navigate to the project directory:
 
+```bash
 cd ALX-Capstone-Project
+```
 
-## Enviroment Variable Setup
+3. Install the dependencies:
 
+```bash
+npm install
+```
+
+4. Set up the environment variables in a `.env` file:
+
+```env
 VITE_API_SUPABASE_URL=https://your-supabase-url.supabase.co
 VITE_SUPABASE_KEY=your-supabase-public-key
 VITE_SERVICE_ROLE_KEY=your-service-role-key
 VITE_TMDB_API_KEY=your-tmdb-api-key
 VITE_TMDB_API_URL=https://api.themoviedb.org/3
+```
 
-## Installation
+### Usage
 
-Once you have cloned the repository and configured the environment variables, run the following commands to install the dependencies:
+Run the project with the following command:
 
-    Install the project dependencies:
-
-npm install
-
-    Start the development server:
-
+```bash
 npm run dev
+```
+
+This will start the development server. Open your browser and navigate to `http://localhost:3000` to view the application.
+
+### Testing
+
+ALX-Capstone-Project uses the `{test_framework}` test framework. Run the test suite with:
+
+```bash
+npm test
+```
+
+Replace `{test_framework}` with the actual test framework used in your project.
+
+---
+
+## Built With
+
+- **JSON**
+- **npm**
+- **Autoprefixer**
+- **PostCSS**
+- **JavaScript**
+- **React**
+- **Vite**
+- **ESLint**
+- **Swiper**
+- **Axios**
+- **CSS**
+- **React Query**
